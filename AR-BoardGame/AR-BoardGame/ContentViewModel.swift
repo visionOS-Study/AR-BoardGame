@@ -16,7 +16,7 @@ class ContentViewModel {
     var contentEntity = Entity()
     private var childList: [Entity] = []
     private let modelScale: Float = 0.1
-
+    
     func setUpContentEntity() -> Entity {
         for child in childList {
             contentEntity.removeChild(child)
@@ -28,9 +28,7 @@ class ContentViewModel {
         var z: Float = -3
         
         for i in 0..<10 {
-            guard let modelEntity = try? ModelEntity.loadModel(named: "player_pawn_blue.usdz") else {
-                return ModelEntity()
-            }
+            let modelEntity = makeBubble()
             modelEntity.scale = SIMD3(repeating: modelScale)
             //TODO: 배치로직 구현필요
             if i % 2 == 0 {
@@ -53,12 +51,46 @@ class ContentViewModel {
     }
     
     func removeChildEntity(removedChild: Entity) {
-        contentEntity.removeChild(removedChild)
+        removedChild.removeFromParent()
+        
+        // 배열에도 entity 삭제
         for (idx , child) in childList.enumerated() {
             if child.name == removedChild.name {
                 childList.remove(at: idx)
             }
         }
+        
+        addParticleEntity(transForm: removedChild.transform)
+    }
+    
+    func addParticleEntity(transForm: Transform) {
+        /// ✅ 파티클
+        let particleEntity = Entity()
+        var particleEmitter = ParticleEmitterComponent()
+        
+        /// 한 번만 실행
+        let emitDuration = ParticleEmitterComponent.Timing.VariableDuration(duration: 1.0)
+        particleEmitter.timing = .once(warmUp: nil, emit: emitDuration)
+        particleEmitter.emitterShape = ParticleEmitterComponent.EmitterShape.sphere
+        particleEntity.components.set(particleEmitter)
+        particleEntity.transform = transForm
+        
+        contentEntity.addChild(particleEntity)
+    }
+    
+    func makeBubble() -> ModelEntity {
+        /// ✅ 투명 메테리얼
+        var clearMaterial = PhysicallyBasedMaterial()
+        clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 1.0)
+        clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.3))
+        
+        let entity = ModelEntity(
+            mesh: .generateSphere(radius: 0.3),
+            materials: [clearMaterial],
+            collisionShape: .generateSphere(radius: 0.3),
+            mass: 0.0
+        )
+        return entity
     }
     
 }
