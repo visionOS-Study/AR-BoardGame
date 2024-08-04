@@ -10,11 +10,33 @@ import RealityKit
 import RealityKitContent
 
 struct ImmersiveView: View {
+    @Environment(ContentViewModel.self) var viewModel: ContentViewModel
+    @State private var root: Entity?
+    
     var body: some View {
-        RealityView { content in
-            // Add the initial RealityKit content
-            if let scene = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
-                content.add(scene)
+        RealityView (make: { content in
+            guard let root else { return }
+            content.add(root)
+        }, update: { content in
+            // RealityView Update 시 코드 구현
+        })
+        .onAppear {
+            root = viewModel.setUpContentEntity()
+        }
+        .gesture(
+            SpatialTapGesture()
+            .targetedToAnyEntity()
+            .onChanged { value in
+                
+            }
+            .onEnded { event in
+                viewModel.removeChildEntity(removedChild: event.entity)
+            }
+        )
+        .onChange(of: viewModel.isResetImmersiveContents) { _ ,newValue in
+            if newValue {
+                root = viewModel.setUpContentEntity()
+                viewModel.isResetImmersiveContents = false
             }
         }
     }

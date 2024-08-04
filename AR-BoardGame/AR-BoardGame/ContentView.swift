@@ -9,11 +9,14 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
-struct ContentView: View {
+import SwiftUI
+import RealityKit
+import RealityKitContent
 
+struct ContentView: View {
+    @Environment(ContentViewModel.self) var viewModel: ContentViewModel
     @State private var enlarge = false
     @State private var showImmersiveSpace = false
-    @State private var immersiveSpaceIsShown = false
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
@@ -36,16 +39,16 @@ struct ContentView: View {
                 if newValue {
                     switch await openImmersiveSpace(id: "ImmersiveSpace") {
                     case .opened:
-                        immersiveSpaceIsShown = true
+                        viewModel.immersiveSpaceIsShown = true
                     case .error, .userCancelled:
                         fallthrough
                     @unknown default:
-                        immersiveSpaceIsShown = false
+                        viewModel.immersiveSpaceIsShown = false
                         showImmersiveSpace = false
                     }
-                } else if immersiveSpaceIsShown {
+                } else if viewModel.immersiveSpaceIsShown {
                     await dismissImmersiveSpace()
-                    immersiveSpaceIsShown = false
+                    viewModel.immersiveSpaceIsShown = false
                 }
             }
         }
@@ -57,6 +60,9 @@ struct ContentView: View {
                 VStack (spacing: 12) {
                     Toggle("Enlarge RealityView Content", isOn: $enlarge)
                     Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
+                    Button("Reset ImmersiveNumber") {
+                        viewModel.isResetImmersiveContents = true
+                    }
                 }
             }
         }

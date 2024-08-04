@@ -13,6 +13,8 @@
 		E7BEE18C2C5FC6C400A4DBC8 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */; };
 		E7BEE18E2C5FC6C500A4DBC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7BEE18D2C5FC6C500A4DBC8 /* Assets.xcassets */; };
 		E7BEE1912C5FC6C500A4DBC8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7BEE1902C5FC6C500A4DBC8 /* Preview Assets.xcassets */; };
+		E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BEE1982C5FD32F00A4DBC8 /* ContentViewModel.swift */; };
+		E7BEE19B2C5FD3E400A4DBC8 /* player_pawn_blue.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E7BEE19A2C5FD3E300A4DBC8 /* player_pawn_blue.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		E7BEE18D2C5FC6C500A4DBC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7BEE1902C5FC6C500A4DBC8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E7BEE1922C5FC6C500A4DBC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E7BEE1982C5FD32F00A4DBC8 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		E7BEE19A2C5FD3E300A4DBC8 /* player_pawn_blue.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = player_pawn_blue.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +65,10 @@
 				E7BEE1872C5FC6C300A4DBC8 /* AR_BoardGameApp.swift */,
 				E7BEE1892C5FC6C400A4DBC8 /* ContentView.swift */,
 				E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */,
+				E7BEE1982C5FD32F00A4DBC8 /* ContentViewModel.swift */,
 				E7BEE18D2C5FC6C500A4DBC8 /* Assets.xcassets */,
 				E7BEE1922C5FC6C500A4DBC8 /* Info.plist */,
+				E7BEE19A2C5FD3E300A4DBC8 /* player_pawn_blue.usdz */,
 				E7BEE18F2C5FC6C500A4DBC8 /* Preview Content */,
 			);
 			path = "AR-BoardGame";
@@ -147,6 +153,7 @@
 			files = (
 				E7BEE1912C5FC6C500A4DBC8 /* Preview Assets.xcassets in Resources */,
 				E7BEE18E2C5FC6C500A4DBC8 /* Assets.xcassets in Resources */,
+				E7BEE19B2C5FD3E400A4DBC8 /* player_pawn_blue.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */,
 				E7BEE18A2C5FC6C400A4DBC8 /* ContentView.swift in Sources */,
 				E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */,
 				E7BEE18C2C5FC6C400A4DBC8 /* ImmersiveView.swift in Sources */,
