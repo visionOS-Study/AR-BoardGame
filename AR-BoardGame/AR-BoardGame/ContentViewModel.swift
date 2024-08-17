@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import RealityKit
 import RealityKitContent
 
@@ -23,19 +24,14 @@ class ContentViewModel {
         }
         childList = []
         
-        var x: Float = 0.3
-        var y: Float = 0.3
-        var z: Float = -3
-        
         for i in 0..<10 {
             let modelEntity = makeBubble(text: "\(i+1)")
             modelEntity.scale = SIMD3(repeating: modelScale)
+            
             //TODO: 배치로직 구현필요
-            if i % 2 == 0 {
-                y += 0.4
-            }else {
-                x += 0.4
-            }
+            let x = Float.random(in: -2...2)
+            let y = Float.random(in: -2...2)
+            let z = Float.random(in: -4 ... -3)
             
             modelEntity.name = "index-\(i)"
             modelEntity.position = SIMD3<Float>(x: x, y: y, z: z)
@@ -87,7 +83,9 @@ class ContentViewModel {
         /// ✅ 투명 메테리얼 : 버블
         var clearMaterial = PhysicallyBasedMaterial()
         clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 1.0)
-        clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.3))
+        clearMaterial.clearcoatRoughness = PhysicallyBasedMaterial.ClearcoatRoughness(floatLiteral: 0.1)
+        clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
+        clearMaterial.emissiveColor = .init(color: .lightGray)
         
         let entity = ModelEntity(
             mesh: .generateSphere(radius: 2),
@@ -104,7 +102,7 @@ class ContentViewModel {
                                                            containerFrame: .zero,
                                                            alignment: .center,
                                                            lineBreakMode: .byWordWrapping )
-        let numMaterial = UnlitMaterial(color:.white)
+        let numMaterial = UnlitMaterial(color:.black)
         
         let textEntity = ModelEntity(mesh: textMeshResource, materials:  [numMaterial])
         //textEntity.position =  entity.position
@@ -116,4 +114,7 @@ class ContentViewModel {
         return entity
     }
     
+    
 }
+
+

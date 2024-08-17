@@ -11,6 +11,7 @@ import SwiftUI
 struct AR_BoardGameApp: App {
     
     @State private var contentViewMdoel = ContentViewModel()
+    @State private var immersionStyle: ImmersionStyle = .full
     
     var body: some Scene {
         WindowGroup {
@@ -21,6 +22,6 @@ struct AR_BoardGameApp: App {
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
                 .environment(contentViewMdoel)
-        }
+        }//.immersionStyle(selection: $immersionStyle, in: .full)
     }
 }
