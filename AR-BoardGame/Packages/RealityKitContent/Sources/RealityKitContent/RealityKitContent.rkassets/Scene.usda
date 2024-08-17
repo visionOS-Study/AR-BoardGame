@@ -15,7 +15,7 @@ def Xform "Root"
     )
 
     def Sphere "Sphere" (
-        active = true
+        active = false
         prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {

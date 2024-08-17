@@ -9,12 +9,9 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
-import SwiftUI
-import RealityKit
-import RealityKitContent
-
 struct ContentView: View {
     @Environment(ContentViewModel.self) var viewModel: ContentViewModel
+    
     @State private var enlarge = false
     @State private var showImmersiveSpace = false
 
