@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 import RealityKit
 import RealityKitContent
 
@@ -29,7 +28,7 @@ class ContentViewModel {
             modelEntity.scale = SIMD3(repeating: modelScale)
             
             //TODO: 배치로직 구현필요
-            let x = Float.random(in: -2...2)
+            let x = Float.random(in: -3...2)
             let y = Float.random(in: -2...2)
             let z = Float.random(in: -4 ... -3)
             
@@ -67,12 +66,11 @@ class ContentViewModel {
         /// 한 번만 실행
         let emitDuration = ParticleEmitterComponent.Timing.VariableDuration(duration: 1.0)
         particleEmitter.timing = .once(warmUp: nil, emit: emitDuration)
+        
         particleEmitter.emitterShape = ParticleEmitterComponent.EmitterShape.sphere
-        particleEntity.components.set(particleEmitter)
-        particleEntity.position = position
-        // 색상 변경
         particleEmitter.mainEmitter.color = .constant(.single(.white))
         particleEntity.components.set(particleEmitter)
+        particleEntity.position = position
         
         print("particle position: " + "\(particleEntity.position)")
         
@@ -93,6 +91,9 @@ class ContentViewModel {
             collisionShape: .generateSphere(radius: 2),
             mass: 0.0
         )
+        let physicsShape = ShapeResource.generateSphere(radius: 2)
+        entity.physicsBody = PhysicsBodyComponent(shapes: [physicsShape], mass: 0.0, mode: .dynamic)
+
         
         
         /// 3D 숫자
