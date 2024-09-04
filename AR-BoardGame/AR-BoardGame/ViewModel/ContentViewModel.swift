@@ -24,33 +24,39 @@ class ContentViewModel {
         }
         childList = []
         
-        let xRange: ClosedRange<Float> = -1.5...1.5
-        let yRange: ClosedRange<Float> = 0.5...1.5
-        let zRange: ClosedRange<Float> = -3.0 ... -2.0
+        var x: Float = 0
+        var y: Float = 0.5
+        var z: Float = -1
         
-        for i in 0..<30 {
-            let modelEntity = makeBubble()
-            let textModelEntity = makeTextModel(textString: "\(i)")
+        var coordinates = makeCoordinates(row: 3)
+        
+        for i in 0..<coordinates.count {
+            let modelEntity = makeBubble(i)
+            let textModelEntity = makeTextEntity(number: i)
+
             modelEntity.scale = SIMD3(repeating: modelScale)
-            textModelEntity.scale = SIMD3(repeating: 1.0)
+            textModelEntity.scale = SIMD3(repeating: 1)
             
-            // x, y, z 범위 내에서 랜덤하게 값을 생성
-            let randomX = Float.random(in: xRange)
-            let randomY = Float.random(in: yRange)
-            let randomZ = Float.random(in: zRange)
+            
+            coordinates = coordinates.shuffled()
+            let coor = coordinates.popLast()!
             
             modelEntity.name = "index-\(i)"
-            modelEntity.position = SIMD3<Float>(x: randomX, y: randomY, z: randomZ)
+            modelEntity.position = SIMD3<Float>(
+                x: x + Float(coor.x),
+                y: y + Float(coor.y),
+                z: z - Float(coor.z)
+            )
             
-            textModelEntity.name = "text-\(i)"
             let boundsExtents = textBoundingBox.extents * textModelEntity.scale
             textModelEntity.position = textModelEntity.position - SIMD3<Float>(x: boundsExtents.x/2, y: boundsExtents.y/2 + 0.03, z: 0.0)
+            
             modelEntity.generateCollisionShapes(recursive: true)
             modelEntity.components.set(InputTargetComponent(allowedInputTypes: .indirect))
-
-            modelEntity.addChild(textModelEntity)
-
+            
             childList.append(modelEntity)
+            
+            modelEntity.addChild(textModelEntity)
             contentEntity.addChild(modelEntity)
         }
         return contentEntity
@@ -103,7 +109,7 @@ class ContentViewModel {
         contentEntity.addChild(particleEntity)
     }
     
-    func makeBubble() -> ModelEntity {
+    func makeBubble(_ index: Int) -> ModelEntity {
         var clearMaterial = PhysicallyBasedMaterial()
         clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
         clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
@@ -117,7 +123,7 @@ class ContentViewModel {
         return entity
     }
     
-    func makeTextModel(textString: String) -> ModelEntity {
+    func makeTextEntity(number: Int) -> ModelEntity {
         let materialVar = SimpleMaterial(color: .black, roughness: 0, isMetallic: false)
         
         let depthVar: Float = 0.1
@@ -128,7 +134,7 @@ class ContentViewModel {
         let alignmentVar: CTTextAlignment = .center
         let lineBreakModeVar : CTLineBreakMode = .byWordWrapping
         
-        let textMeshResource : MeshResource = .generateText(textString,
+        let textMeshResource : MeshResource = .generateText(String(number),
                                                             extrusionDepth: depthVar,
                                                             font: fontVar,
                                                             containerFrame: containerFrameVar,
@@ -136,8 +142,29 @@ class ContentViewModel {
                                                             lineBreakMode: lineBreakModeVar)
         
         let textEntity = ModelEntity(mesh: textMeshResource, materials: [materialVar])
+        textEntity.name = "text -\(number)"
         textBoundingBox = textMeshResource.bounds
         return textEntity
     }
+    
+    private func makeCoordinates(row: Int = 3) -> [EntityCoordinate] {
+        
+        // 반원 반경으로 10개의 Entity를 배치하기 위한 고정 위치 값
+        let xValues: [Float] = [-1.00, -0.78, -0.56, -0.33, -0.11, 0.11, 0.33, 0.56, 0.78, 1.00]
+        let zValues: [Float] = [0.43, 0.63, 0.83, 0.94, 0.99, 0.99, 0.94, 0.83, 0.63, 0.43]
+        
+        var coordinates: [EntityCoordinate] = []
+        var y: Float = 0
+        
+        for r in 0..<row {
+          for (x, z) in zip(xValues, zValues) {
+            coordinates.append(EntityCoordinate(x: x, y: y, z: z))
+          }
+          
+          y += 0.5
+        }
+        
+        return coordinates
+      }
     
 }
