@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct EntityCoordinate {
+  var x: Float
+  var y: Float
+  var z: Float
+}
