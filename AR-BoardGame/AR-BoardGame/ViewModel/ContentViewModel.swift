@@ -24,39 +24,32 @@ class ContentViewModel {
         }
         childList = []
         
-        var x: Float = 0
-        var y: Float = 0.5
-        var z: Float = -1
+        let x: Float = 0
+        let y: Float = 0.5
+        let z: Float = -1
         
         var coordinates = makeCoordinates(row: 3)
         
         for i in 0..<coordinates.count {
-            let modelEntity = makeBubble(i)
-            let textModelEntity = makeTextEntity(number: i)
-
+            let modelEntity = makeBubble(String(i))
             modelEntity.scale = SIMD3(repeating: modelScale)
-            textModelEntity.scale = SIMD3(repeating: 1)
             
-            
+            let textModelEntity = makeTextEntity(text: String(i))
+            modelEntity.addChild(textModelEntity)
+
             coordinates = coordinates.shuffled()
             let coor = coordinates.popLast()!
             
-            modelEntity.name = "index-\(i)"
             modelEntity.position = SIMD3<Float>(
                 x: x + Float(coor.x),
                 y: y + Float(coor.y),
                 z: z - Float(coor.z)
             )
             
-            let boundsExtents = textBoundingBox.extents * textModelEntity.scale
-            textModelEntity.position = textModelEntity.position - SIMD3<Float>(x: boundsExtents.x/2, y: boundsExtents.y/2 + 0.03, z: 0.0)
-            
             modelEntity.generateCollisionShapes(recursive: true)
             modelEntity.components.set(InputTargetComponent(allowedInputTypes: .indirect))
             
             childList.append(modelEntity)
-            
-            modelEntity.addChild(textModelEntity)
             contentEntity.addChild(modelEntity)
         }
         return contentEntity
@@ -86,30 +79,31 @@ class ContentViewModel {
     func addParticleEntity(transForm: Transform) {
         let particleEntity = Entity()
         var emitterComponent = ParticleEmitterComponent()
-        emitterComponent = ParticleEmitterComponent.Presets.magic
+//        emitterComponent = ParticleEmitterComponent.Presets.impact
         /// 한 번만 실행
         let emitDuration = ParticleEmitterComponent.Timing.VariableDuration(duration: 1.0)
         emitterComponent.timing = .once(warmUp: nil, emit: emitDuration)
         emitterComponent.emitterShape = ParticleEmitterComponent.EmitterShape.sphere
         
-        typealias ParticleEmitter = ParticleEmitterComponent.ParticleEmitter
-        let singleColorValue1 = ParticleEmitter.ParticleColor.ColorValue.single(ParticleEmitter.Color.white)
-        let singleColorValue2 = ParticleEmitter.ParticleColor.ColorValue.single(ParticleEmitter.Color.yellow)
-        // Create an evolving color that shifts from one color value to another.
-        let evolvingColor = ParticleEmitter.ParticleColor.evolving(start: singleColorValue1,
-                                                   end: singleColorValue2)
+//        typealias ParticleEmitter = ParticleEmitterComponent.ParticleEmitter
+//        let singleColorValue1 = ParticleEmitter.ParticleColor.ColorValue.single(ParticleEmitter.Color.black)
+//        let singleColorValue2 = ParticleEmitter.ParticleColor.ColorValue.single(ParticleEmitter.Color.white)
+//        // Create an evolving color that shifts from one color value to another.
+//        let evolvingColor = ParticleEmitter.ParticleColor.evolving(start: singleColorValue1, end: singleColorValue2)
         emitterComponent.speed = 1
-        emitterComponent.mainEmitter.birthRate = 150
-        emitterComponent.mainEmitter.color = evolvingColor
+        emitterComponent.mainEmitter.birthRate = 100
+//        emitterComponent.mainEmitter.color = evolvingColor
+        emitterComponent.mainEmitter.color = .constant(.single(.white))
         
         particleEntity.components.set(emitterComponent)
         particleEntity.transform = transForm
         // 삭제시 파티클 이름으로 확인
         particleEntity.name = "particle"
         contentEntity.addChild(particleEntity)
+        
     }
     
-    func makeBubble(_ index: Int) -> ModelEntity {
+    func makeBubble(_ index: String) -> ModelEntity {
         var clearMaterial = PhysicallyBasedMaterial()
         clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
         clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
@@ -120,10 +114,12 @@ class ContentViewModel {
             collisionShape: .generateSphere(radius: 0.3),
             mass: 0.0
         )
+        entity.name = "index-\(index)"
+        
         return entity
     }
     
-    func makeTextEntity(number: Int) -> ModelEntity {
+    func makeTextEntity(text: String, scale: Float = 1.0) -> ModelEntity {
         let materialVar = SimpleMaterial(color: .black, roughness: 0, isMetallic: false)
         
         let depthVar: Float = 0.1
@@ -134,17 +130,21 @@ class ContentViewModel {
         let alignmentVar: CTTextAlignment = .center
         let lineBreakModeVar : CTLineBreakMode = .byWordWrapping
         
-        let textMeshResource : MeshResource = .generateText(String(number),
+        let textMeshResource : MeshResource = .generateText(text,
                                                             extrusionDepth: depthVar,
                                                             font: fontVar,
                                                             containerFrame: containerFrameVar,
                                                             alignment: alignmentVar,
                                                             lineBreakMode: lineBreakModeVar)
         
-        let textEntity = ModelEntity(mesh: textMeshResource, materials: [materialVar])
-        textEntity.name = "text -\(number)"
+        let textModelEntity = ModelEntity(mesh: textMeshResource, materials: [materialVar])
+        textModelEntity.name = "text-\(text)"
         textBoundingBox = textMeshResource.bounds
-        return textEntity
+        textModelEntity.scale = SIMD3(repeating: scale)
+        
+        let boundsExtents = textBoundingBox.extents * textModelEntity.scale
+        textModelEntity.position = textModelEntity.position - SIMD3<Float>(x: boundsExtents.x/2, y: boundsExtents.y/2 + 0.03, z: 0.0)
+        return textModelEntity
     }
     
     private func makeCoordinates(row: Int = 3) -> [EntityCoordinate] {
