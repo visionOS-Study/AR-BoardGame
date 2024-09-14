@@ -12,7 +12,6 @@ import RealityKitContent
 struct ContentView: View {
     @Environment(ContentViewModel.self) var viewModel: ContentViewModel
     @State private var showImmersiveSpace = false
-
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
 
@@ -32,17 +31,14 @@ struct ContentView: View {
                 if newValue {
                     switch await openImmersiveSpace(id: "ImmersiveSpace") {
                     case .opened:
-                        viewModel.immersiveSpaceIsShown = true
+                        debugPrint("ImmersiveSpace opened")
                     case .error, .userCancelled:
                         fallthrough
                     @unknown default:
-                        viewModel.immersiveSpaceIsShown = false
                         showImmersiveSpace = false
                     }
-                } else if viewModel.immersiveSpaceIsShown {
-                    viewModel.isResetImmersiveContents = true
+                } else {
                     await dismissImmersiveSpace()
-                    viewModel.immersiveSpaceIsShown = false
                 }
             }
         }
