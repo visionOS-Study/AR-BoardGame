@@ -9,10 +9,6 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
-import SwiftUI
-import RealityKit
-import RealityKitContent
-
 struct ContentView: View {
     @Environment(ContentViewModel.self) var viewModel: ContentViewModel
     @State private var showImmersiveSpace = false
@@ -22,10 +18,6 @@ struct ContentView: View {
 
     var body: some View {
         RealityView { content in
-            // Add the initial RealityKit content
-//            if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
-//                content.add(scene)
-//            }
             let bubbleEntity = viewModel.makeBubble("Welcome")
             bubbleEntity.scale = SIMD3(repeating: 1)
             let textModelEntity = viewModel.makeTextEntity(text: "Welcome", scale: 0.3)
@@ -48,6 +40,7 @@ struct ContentView: View {
                         showImmersiveSpace = false
                     }
                 } else if viewModel.immersiveSpaceIsShown {
+                    viewModel.isResetImmersiveContents = true
                     await dismissImmersiveSpace()
                     viewModel.immersiveSpaceIsShown = false
                 }
