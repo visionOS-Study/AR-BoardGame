@@ -11,23 +11,20 @@ import RealityKitContent
 
 @Observable
 class ContentViewModel {
-    var immersiveSpaceIsShown = false
     var isResetImmersiveContents = false
     var contentEntity = Entity()
-    private var childList: [Entity] = []
     private let modelScale: Float = 0.3
     private var textBoundingBox = BoundingBox.empty
-    
-    func setUpContentEntity() -> Entity {
-        for child in childList {
+
+    func resetContentEnityChild() {
+         for child in contentEntity.children {
             contentEntity.removeChild(child)
         }
-        childList = []
-        
-        let x: Float = 0
-        let y: Float = 0.5
-        let z: Float = -1
-        
+    }
+    
+    func setUpContentEntity() -> Entity {
+        resetContentEnityChild()
+
         var coordinates = makeCoordinates(row: 3)
         
         for i in 0..<coordinates.count {
@@ -41,58 +38,29 @@ class ContentViewModel {
             let coor = coordinates.popLast()!
             
             modelEntity.position = SIMD3<Float>(
-                x: x + Float(coor.x),
-                y: y + Float(coor.y),
-                z: z - Float(coor.z)
+                x: Float(coor.x),
+                y: Float(coor.y),
+                z: Float(coor.z)
             )
             
             modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.components.set(InputTargetComponent(allowedInputTypes: .indirect))
+            modelEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
             
-            childList.append(modelEntity)
             contentEntity.addChild(modelEntity)
         }
         return contentEntity
     }
     
-    func removeChildEntity(removedChild: Entity) {
-        removedChild.removeFromParent()
-
-        // 배열에도 entity 삭제
-        for (idx , child) in childList.enumerated() {
-            if child.name == removedChild.name {
-                childList.remove(at: idx)
-            }
-        }
-        // 새 파티클 추가전 particleEntity들 삭제
-        // 삭제를 안하면 이전에 particle이 추가된 엔터티가 contentEntity에 남아있고
-        // 씬 reset 실행시 이전에 추가된 파티클이 다시 실행됨
-        for entity in contentEntity.children {
-            if let particleEntity = entity.findEntity(named: "particle") {
-                entity.removeChild(particleEntity)
-            }
-        }
-        
-        addParticleEntity(transForm: removedChild.transform)
-    }
-    
-    func addParticleEntity(transForm: Transform) {
+    func addParticleEntity(transForm: Transform, resetParticleClosure: @escaping (Entity) -> Void) {
         let particleEntity = Entity()
         var emitterComponent = ParticleEmitterComponent()
-//        emitterComponent = ParticleEmitterComponent.Presets.impact
-        /// 한 번만 실행
+
         let emitDuration = ParticleEmitterComponent.Timing.VariableDuration(duration: 1.0)
         emitterComponent.timing = .once(warmUp: nil, emit: emitDuration)
         emitterComponent.emitterShape = ParticleEmitterComponent.EmitterShape.sphere
         
-//        typealias ParticleEmitter = ParticleEmitterComponent.ParticleEmitter
-//        let singleColorValue1 = ParticleEmitter.ParticleColor.ColorValue.single(ParticleEmitter.Color.black)
-//        let singleColorValue2 = ParticleEmitter.ParticleColor.ColorValue.single(ParticleEmitter.Color.white)
-//        // Create an evolving color that shifts from one color value to another.
-//        let evolvingColor = ParticleEmitter.ParticleColor.evolving(start: singleColorValue1, end: singleColorValue2)
         emitterComponent.speed = 1
         emitterComponent.mainEmitter.birthRate = 100
-//        emitterComponent.mainEmitter.color = evolvingColor
         emitterComponent.mainEmitter.color = .constant(.single(.white))
         
         particleEntity.components.set(emitterComponent)
@@ -101,6 +69,7 @@ class ContentViewModel {
         particleEntity.name = "particle"
         contentEntity.addChild(particleEntity)
         
+        resetParticleClosure(particleEntity)
     }
     
     func makeBubble(_ index: String) -> ModelEntity {
@@ -125,7 +94,6 @@ class ContentViewModel {
         let depthVar: Float = 0.1
         let fontVar = UIFont.systemFont(ofSize: 0.3)
         // containerFrame을 넣으면 모델이 안나옴
-//        let containerFrameVar = CGRect(x: 0, y: 0, width: 0.5, height: 0.5)
         let containerFrameVar = CGRect.zero
         let alignmentVar: CTTextAlignment = .center
         let lineBreakModeVar : CTLineBreakMode = .byWordWrapping
@@ -147,24 +115,41 @@ class ContentViewModel {
         return textModelEntity
     }
     
-    private func makeCoordinates(row: Int = 3) -> [EntityCoordinate] {
-        
-        // 반원 반경으로 10개의 Entity를 배치하기 위한 고정 위치 값
-        let xValues: [Float] = [-1.00, -0.78, -0.56, -0.33, -0.11, 0.11, 0.33, 0.56, 0.78, 1.00]
-        let zValues: [Float] = [0.43, 0.63, 0.83, 0.94, 0.99, 0.99, 0.94, 0.83, 0.63, 0.43]
-        
+    private func makeCoordinates(row: Int = 3, minDistance: Float = 0.3) -> [EntityCoordinate] {
         var coordinates: [EntityCoordinate] = []
-        var y: Float = 0
         
-        for r in 0..<row {
-          for (x, z) in zip(xValues, zValues) {
-            coordinates.append(EntityCoordinate(x: x, y: y, z: z))
-          }
-          
-          y += 0.5
+        let xRange: ClosedRange<Float> = -1.0...1.0
+        let yRange: ClosedRange<Float> = 0.5...1.5
+        // 내 뒤에까지 방울을 배치
+        let zRange: ClosedRange<Float> = -1.0 ... 0.5
+        
+        for _ in 0..<30 {
+            var newEntityCoordinate: EntityCoordinate
+            repeat {
+                let randomX = Float.random(in: xRange)
+                let randomY = Float.random(in: yRange)
+                let randomZ = Float.random(in: zRange)
+                newEntityCoordinate = EntityCoordinate(x: randomX, y: randomY, z: randomZ)
+            } while isTooClose(newCoordinate: newEntityCoordinate, existingCoordinates: coordinates, minDistance: minDistance)
+            
+            coordinates.append(newEntityCoordinate)
         }
         
         return coordinates
-      }
+    }
+
+    private func isTooClose(newCoordinate: EntityCoordinate, existingCoordinates: [EntityCoordinate], minDistance: Float) -> Bool {
+        for coordinate in existingCoordinates {
+            let deltaX = abs(newCoordinate.x - coordinate.x)
+            let deltaY = abs(newCoordinate.y - coordinate.y)
+            let deltaZ = abs(newCoordinate.z - coordinate.z)
+            
+            // x, y, z 축 각각이 최소 거리 이상이어야 함
+            if deltaX < minDistance && deltaY < minDistance && deltaZ < minDistance {
+                return true
+            }
+        }
+        return false
+    }
     
 }
