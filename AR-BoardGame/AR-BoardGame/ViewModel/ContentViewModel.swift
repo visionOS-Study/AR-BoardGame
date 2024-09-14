@@ -11,18 +11,15 @@ import RealityKitContent
 
 @Observable
 class ContentViewModel {
-    var immersiveSpaceIsShown = false
     var isResetImmersiveContents = false
     var contentEntity = Entity()
-    private var childList: [Entity] = []
     private let modelScale: Float = 0.3
     private var textBoundingBox = BoundingBox.empty
-    
+
     func resetContentEnityChild() {
-        for child in childList {
+         for child in contentEntity.children {
             contentEntity.removeChild(child)
         }
-        childList = []
     }
     
     func setUpContentEntity() -> Entity {
@@ -49,34 +46,12 @@ class ContentViewModel {
             modelEntity.generateCollisionShapes(recursive: true)
             modelEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
             
-            childList.append(modelEntity)
             contentEntity.addChild(modelEntity)
         }
         return contentEntity
     }
     
-    func removeChildEntity(removedChild: Entity) {
-        removedChild.removeFromParent()
-
-        // 배열에도 entity 삭제
-        for (idx , child) in childList.enumerated() {
-            if child.name == removedChild.name {
-                childList.remove(at: idx)
-            }
-        }
-        // 새 파티클 추가전 particleEntity들 삭제
-        // 삭제를 안하면 이전에 particle이 추가된 엔터티가 contentEntity에 남아있고
-        // 씬 reset 실행시 이전에 추가된 파티클이 다시 실행됨
-        for entity in contentEntity.children {
-            if let particleEntity = entity.findEntity(named: "particle") {
-                entity.removeChild(particleEntity)
-            }
-        }
-        
-        addParticleEntity(transForm: removedChild.transform)
-    }
-    
-    func addParticleEntity(transForm: Transform) {
+    func addParticleEntity(transForm: Transform, resetParticleClosure: @escaping (Entity) -> Void) {
         let particleEntity = Entity()
         var emitterComponent = ParticleEmitterComponent()
 
@@ -94,6 +69,7 @@ class ContentViewModel {
         particleEntity.name = "particle"
         contentEntity.addChild(particleEntity)
         
+        resetParticleClosure(particleEntity)
     }
     
     func makeBubble(_ index: String) -> ModelEntity {
@@ -142,14 +118,13 @@ class ContentViewModel {
     private func makeCoordinates(row: Int = 3, minDistance: Float = 0.3) -> [EntityCoordinate] {
         var coordinates: [EntityCoordinate] = []
         
-        let xRange: ClosedRange<Float> = -1.5...1.5
+        let xRange: ClosedRange<Float> = -1.0...1.0
         let yRange: ClosedRange<Float> = 0.5...1.5
         // 내 뒤에까지 방울을 배치
-        let zRange: ClosedRange<Float> = -1.0 ... 1.0
+        let zRange: ClosedRange<Float> = -1.0 ... 0.5
         
         for _ in 0..<30 {
             var newEntityCoordinate: EntityCoordinate
-            var count = 0
             repeat {
                 let randomX = Float.random(in: xRange)
                 let randomY = Float.random(in: yRange)

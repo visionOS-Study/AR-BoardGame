@@ -30,7 +30,13 @@ struct ImmersiveView: View {
                 
             }
             .onEnded { event in
-                viewModel.removeChildEntity(removedChild: event.entity)
+                // 터치 엔터티 삭제
+                event.entity.removeFromParent()
+                viewModel.addParticleEntity(transForm: event.entity.transform) { entity in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        entity.removeFromParent()
+                    }
+                }
             }
         )
         .onChange(of: viewModel.isResetImmersiveContents) { _ ,newValue in
