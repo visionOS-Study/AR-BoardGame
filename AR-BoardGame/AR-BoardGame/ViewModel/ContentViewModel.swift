@@ -47,7 +47,7 @@ class ContentViewModel {
             )
             
             modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.components.set(InputTargetComponent(allowedInputTypes: .indirect))
+            modelEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
             
             childList.append(modelEntity)
             contentEntity.addChild(modelEntity)
