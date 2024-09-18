@@ -15,6 +15,8 @@ class ContentViewModel {
     var contentEntity = Entity()
     private let modelScale: Float = 0.3
     private var textBoundingBox = BoundingBox.empty
+  
+  private var currentIndex = 1
 
     func resetContentEnityChild() {
          for child in contentEntity.children {
@@ -27,7 +29,7 @@ class ContentViewModel {
 
         var coordinates = makeCoordinates(row: 3)
         
-        for i in 0..<coordinates.count {
+        for i in 1...coordinates.count {
             let modelEntity = makeBubble(String(i))
             modelEntity.scale = SIMD3(repeating: modelScale)
             
@@ -48,6 +50,9 @@ class ContentViewModel {
             
             contentEntity.addChild(modelEntity)
         }
+      
+        currentIndex = 1
+      
         return contentEntity
     }
     
@@ -152,4 +157,12 @@ class ContentViewModel {
         return false
     }
     
+  func checkNumber(_ entityName: String) -> Bool {
+    if entityName == "index-\(currentIndex)" {
+      currentIndex += 1
+      return true
+    } else {
+      return false
+    }
+  }
 }
