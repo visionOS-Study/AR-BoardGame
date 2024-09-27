@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764E5412C89208300A3CBEE /* EntityCoordinate.swift */; };
 		E7BEE1862C5FC6C300A4DBC8 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = E7BEE1852C5FC6C300A4DBC8 /* RealityKitContent */; };
 		E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BEE1872C5FC6C300A4DBC8 /* AR_BoardGameApp.swift */; };
 		E7BEE18A2C5FC6C400A4DBC8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BEE1892C5FC6C400A4DBC8 /* ContentView.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E764E5412C89208300A3CBEE /* EntityCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCoordinate.swift; sourceTree = "<group>"; };
 		E7BEE1802C5FC6C300A4DBC8 /* AR-BoardGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR-BoardGame.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7BEE1842C5FC6C300A4DBC8 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		E7BEE1872C5FC6C300A4DBC8 /* AR_BoardGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AR_BoardGameApp.swift; sourceTree = "<group>"; };
@@ -42,6 +44,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E764E53E2C89201800A3CBEE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E7BEE1982C5FD32F00A4DBC8 /* ContentViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E764E53F2C89202C00A3CBEE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E7BEE1892C5FC6C400A4DBC8 /* ContentView.swift */,
+				E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E764E5402C89203200A3CBEE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E764E5412C89208300A3CBEE /* EntityCoordinate.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		E7BEE1772C5FC6C300A4DBC8 = {
 			isa = PBXGroup;
 			children = (
@@ -63,9 +90,9 @@
 			isa = PBXGroup;
 			children = (
 				E7BEE1872C5FC6C300A4DBC8 /* AR_BoardGameApp.swift */,
-				E7BEE1892C5FC6C400A4DBC8 /* ContentView.swift */,
-				E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */,
-				E7BEE1982C5FD32F00A4DBC8 /* ContentViewModel.swift */,
+				E764E5402C89203200A3CBEE /* Model */,
+				E764E53F2C89202C00A3CBEE /* View */,
+				E764E53E2C89201800A3CBEE /* ViewModel */,
 				E7BEE18D2C5FC6C500A4DBC8 /* Assets.xcassets */,
 				E7BEE1922C5FC6C500A4DBC8 /* Info.plist */,
 				E7BEE19A2C5FD3E300A4DBC8 /* player_pawn_blue.usdz */,
@@ -165,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */,
+				E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */,
 				E7BEE18A2C5FC6C400A4DBC8 /* ContentView.swift in Sources */,
 				E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */,
 				E7BEE18C2C5FC6C400A4DBC8 /* ImmersiveView.swift in Sources */,
