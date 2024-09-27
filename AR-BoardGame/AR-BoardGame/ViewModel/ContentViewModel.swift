@@ -15,18 +15,18 @@ class ContentViewModel {
     var contentEntity = Entity()
     private let modelScale: Float = 0.3
     private var textBoundingBox = BoundingBox.empty
-  
-  private var currentIndex = 1
-
+    
+    private var currentIndex = 1
+    
     func resetContentEnityChild() {
-         for child in contentEntity.children {
+        for child in contentEntity.children {
             contentEntity.removeChild(child)
         }
     }
     
     func setUpContentEntity() -> Entity {
         resetContentEnityChild()
-
+        
         var coordinates = makeCoordinates(row: 3)
         
         for i in 1...coordinates.count {
@@ -35,7 +35,7 @@ class ContentViewModel {
             
             let textModelEntity = makeTextEntity(text: String(i))
             modelEntity.addChild(textModelEntity)
-
+            
             coordinates = coordinates.shuffled()
             let coor = coordinates.popLast()!
             
@@ -50,16 +50,16 @@ class ContentViewModel {
             
             contentEntity.addChild(modelEntity)
         }
-      
+        
         currentIndex = 1
-      
+        
         return contentEntity
     }
     
     func addParticleEntity(transForm: Transform, resetParticleClosure: @escaping (Entity) -> Void) {
         let particleEntity = Entity()
         var emitterComponent = ParticleEmitterComponent()
-
+        
         let emitDuration = ParticleEmitterComponent.Timing.VariableDuration(duration: 1.0)
         emitterComponent.timing = .once(warmUp: nil, emit: emitDuration)
         emitterComponent.emitterShape = ParticleEmitterComponent.EmitterShape.sphere
@@ -142,7 +142,7 @@ class ContentViewModel {
         
         return coordinates
     }
-
+    
     private func isTooClose(newCoordinate: EntityCoordinate, existingCoordinates: [EntityCoordinate], minDistance: Float) -> Bool {
         for coordinate in existingCoordinates {
             let deltaX = abs(newCoordinate.x - coordinate.x)
@@ -157,12 +157,37 @@ class ContentViewModel {
         return false
     }
     
-  func checkNumber(_ entityName: String) -> Bool {
-    if entityName == "index-\(currentIndex)" {
-      currentIndex += 1
-      return true
-    } else {
-      return false
+    func didTapBubbleEntity(entity: Entity) {
+        
+        if entity.name == "index-\(currentIndex)" {
+            currentIndex += 1
+            entity.removeFromParent()
+            
+            addParticleEntity (
+                transForm: entity.transform
+            ) { entity in
+                DispatchQueue.main.asyncAfter(
+                    deadline: .now() + 1.5
+                ) {
+                    entity.removeFromParent()
+                }
+            }
+        } else {
+            
+            if let modelEntity = entity as? ModelEntity {
+                let originalMaterials = modelEntity.model?.materials
+                
+                var clearRedMaterial = PhysicallyBasedMaterial()
+                clearRedMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
+                clearRedMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
+                clearRedMaterial.baseColor = .init(tint: .red.withAlphaComponent(0.5))
+                modelEntity.model?.materials = [clearRedMaterial]
+                
+                // 3초 뒤 원래대로
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    modelEntity.model?.materials = originalMaterials ?? []
+                }
+            }
+        }
     }
-  }
 }

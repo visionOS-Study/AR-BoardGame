@@ -24,32 +24,18 @@ struct ImmersiveView: View {
       root = viewModel.setUpContentEntity()
     }
     .gesture(
-      SpatialTapGesture()
-        .targetedToAnyEntity()
-        .onChanged { value in
-          
-        }
-        .onEnded { event in
-          // 터치 엔터티 삭제
-          if viewModel.checkNumber(event.entity.name) {
-            event.entity.removeFromParent()
-            
-            viewModel.addParticleEntity(
-              transForm: event.entity.transform
-            ) { entity in
-              DispatchQueue.main.asyncAfter(
-                deadline: .now() + 1.5
-              ) {
-                entity.removeFromParent()
-              }
+        SpatialTapGesture()
+            .targetedToAnyEntity()
+            .onChanged { value in
+                
             }
-          }
-          
-        }
+            .onEnded { event in
+                viewModel.didTapBubbleEntity(entity: event.entity)
+            }
     )
     .onChange(of: viewModel.isResetImmersiveContents) { _ ,newValue in
-      if newValue {
-        root = viewModel.setUpContentEntity()
+        if newValue {
+            root = viewModel.setUpContentEntity()
         viewModel.isResetImmersiveContents = false
       }
     }
