@@ -32,19 +32,37 @@ struct ImmersiveView: View {
                     
                 }
                 .onEnded { event in
-                    // currentNum과 bubbleNum 비교!
-                    if let bubbleNumber = Int(event.entity.name.split(separator: "-").last ?? ""),
-                       bubbleNumber == currentNumber {
-                        // 터치 엔터티 삭제
-                        event.entity.removeFromParent()
-                        viewModel.addParticleEntity(transForm: event.entity.transform) { entity in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                entity.removeFromParent()
+                    if let bubbleNumber = Int(event.entity.name.split(separator: "-").last ?? "") {
+                        // currentNum과 bubbleNum 비교
+                        if bubbleNumber == currentNumber {
+                            // 제대로 누른 경우
+                            event.entity.removeFromParent()
+                            viewModel.addParticleEntity(transForm: event.entity.transform) { entity in
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    entity.removeFromParent()
+                                }
+                                currentNumber += 1
                             }
-                            currentNumber += 1 
+                        } else {
+                            // 잘못 누른 경우
+                            if let modelEntity = event.entity as? ModelEntity {
+                                let originalMaterials = modelEntity.model?.materials
+                                
+                                var clearRedMaterial = PhysicallyBasedMaterial()
+                                clearRedMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
+                                clearRedMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
+                                clearRedMaterial.baseColor = .init(tint: .red.withAlphaComponent(0.5))
+                                modelEntity.model?.materials = [clearRedMaterial]
+                                
+                                // 3초 뒤 원래대로
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                    modelEntity.model?.materials = originalMaterials ?? []
+                                }
+                            }
                         }
                     }
                 }
+
             
         )
         .onChange(of: viewModel.isResetImmersiveContents) { _ ,newValue in
