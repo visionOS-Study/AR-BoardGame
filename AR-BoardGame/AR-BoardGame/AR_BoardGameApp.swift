@@ -14,8 +14,9 @@ struct AR_BoardGameApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(contentViewMdoel)
+            GameClearTextView()
+            //ContentView()
+                //.environment(contentViewMdoel)
         }.windowStyle(.volumetric)
 
         ImmersiveSpace(id: "ImmersiveSpace") {
