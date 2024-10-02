@@ -21,7 +21,7 @@ struct ContentView: View {
       bubbleEntity.scale = SIMD3(repeating: 1)
       let textModelEntity = viewModel.makeTextEntity(text: "Welcome", scale: 0.3)
       bubbleEntity.addChild(textModelEntity)
-      
+        bubbleEntity.position = SIMD3<Float>(x: bubbleEntity.position.x, y: bubbleEntity.position.y - 0.1, z: bubbleEntity.position.z + 0.1)
       content.add(bubbleEntity)
     } update: { content in
       
@@ -46,9 +46,12 @@ struct ContentView: View {
       ToolbarItemGroup(placement: .bottomOrnament) {
         VStack (spacing: 12) {
           Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
-          Button("Reset ImmersiveNumber") {
-            viewModel.isResetImmersiveContents = true
-          }
+            if showImmersiveSpace {
+                Button("Reset ImmersiveNumber") {
+                  viewModel.isResetImmersiveContents = true
+                }
+            }
+          
         }
       }
     }
