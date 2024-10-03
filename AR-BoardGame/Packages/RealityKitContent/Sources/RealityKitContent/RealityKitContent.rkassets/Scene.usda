@@ -61,6 +61,9 @@ def Xform "Root"
 
     def Xform "ParticleEmitter"
     {
+        float3 xformOp:translate = (-0.1, -0.1, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
         def RealityKitComponent "VFXEmitter"
         {
             token info:id = "RealityKit.VFXEmitter"
@@ -197,7 +200,7 @@ def Xform "Root"
     {
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0.1, 0, 0)
+        float3 xformOp:translate = (0.1, -0.1, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def RealityKitComponent "VFXEmitter"

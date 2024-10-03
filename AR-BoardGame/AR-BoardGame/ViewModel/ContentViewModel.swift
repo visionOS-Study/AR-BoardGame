@@ -172,6 +172,11 @@ class ContentViewModel {
                     entity.removeFromParent()
                 }
             }
+            
+            if currentIndex > 30 {
+                        showGameClearView()
+                    }
+            
         } else {
             
             if let modelEntity = entity as? ModelEntity {
@@ -190,4 +195,17 @@ class ContentViewModel {
             }
         }
     }
+    
+    /// GPT로 임의로 넣어둠!
+    func showGameClearView() {
+        DispatchQueue.main.async {
+            // SwiftUI 뷰를 보여줄 수 있도록 코드 추가
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = UIHostingController(rootView: GameClearTextView())
+                window.makeKeyAndVisible()
+            }
+        }
+    }
+
 }
