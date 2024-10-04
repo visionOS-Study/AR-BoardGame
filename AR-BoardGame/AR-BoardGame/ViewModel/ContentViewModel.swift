@@ -12,12 +12,13 @@ import RealityKitContent
 @Observable
 class ContentViewModel {
     var isResetImmersiveContents = false
+    var isAllBubbleTapped = false
     var contentEntity = Entity()
     private let modelScale: Float = 0.3
     private var textBoundingBox = BoundingBox.empty
     
     private var currentIndex = 1
-    
+    private var countOfBubbles = 20
     func resetContentEnityChild() {
         for child in contentEntity.children {
             contentEntity.removeChild(child)
@@ -128,7 +129,7 @@ class ContentViewModel {
         // 내 뒤에까지 방울을 배치
         let zRange: ClosedRange<Float> = -1.0 ... 0.5
         
-        for _ in 0..<30 {
+        for _ in 0..<countOfBubbles {
             var newEntityCoordinate: EntityCoordinate
             repeat {
                 let randomX = Float.random(in: xRange)
@@ -160,7 +161,6 @@ class ContentViewModel {
     func didTapBubbleEntity(entity: Entity) {
         
         if entity.name == "index-\(currentIndex)" {
-            currentIndex += 1
             entity.removeFromParent()
             
             addParticleEntity (
@@ -172,6 +172,11 @@ class ContentViewModel {
                     entity.removeFromParent()
                 }
             }
+            if currentIndex == countOfBubbles {
+                isAllBubbleTapped = true
+            }
+            currentIndex += 1
+
         } else {
             
             if let modelEntity = entity as? ModelEntity {
