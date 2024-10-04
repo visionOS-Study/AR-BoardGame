@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91052CACEEEE00149ADF /* TimerView.swift */; };
+		E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91092CAD618500149ADF /* TimerViewModel.swift */; };
 		E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764E5412C89208300A3CBEE /* EntityCoordinate.swift */; };
 		E7BEE1862C5FC6C300A4DBC8 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = E7BEE1852C5FC6C300A4DBC8 /* RealityKitContent */; };
 		E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BEE1872C5FC6C300A4DBC8 /* AR_BoardGameApp.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		E72D91052CACEEEE00149ADF /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		E72D91092CAD618500149ADF /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		E764E5412C89208300A3CBEE /* EntityCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCoordinate.swift; sourceTree = "<group>"; };
 		E7BEE1802C5FC6C300A4DBC8 /* AR-BoardGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR-BoardGame.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7BEE1842C5FC6C300A4DBC8 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				E7BEE1982C5FD32F00A4DBC8 /* ContentViewModel.swift */,
+				E72D91092CAD618500149ADF /* TimerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */,
 				E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */,
 				E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */,
 				E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */,
