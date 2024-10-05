@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct TimerView: View {
-    @Environment(ContentViewModel.self) var contentViewModel: ContentViewModel
+    @Bindable var contentViewModel: ContentViewModel
     @Environment(TimerViewModel.self) var timerViewModel: TimerViewModel
-    @Binding var showImmersiveSpace: Bool
+    @Environment(\.openWindow) var openWindow
+    @Environment(\.dismissWindow) var dismissWindow
+    @Environment(\.openImmersiveSpace) var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+    @Environment(\.scenePhase) var scenePhase
+    
     var body: some View {
         VStack {
             Text("Time: \(timerViewModel.formatTime())")
@@ -18,7 +23,6 @@ struct TimerView: View {
                 .padding()
             
             VStack {
-                
                 Button{
                     timerViewModel.resetTimer()
                     contentViewModel.isResetImmersiveContents = true
@@ -31,7 +35,14 @@ struct TimerView: View {
                 }
                 Button {
                     timerViewModel.stopTimer()
-                    showImmersiveSpace = false
+                    openWindow(id: "ContentWindow")
+                    Task {
+                        await dismissImmersiveSpace()
+                    }
+                    dismissWindow(id: "TimerWindow")
+                    Task {
+                        await dismissImmersiveSpace()
+                    }
                 } label: {
                     Text("Back to Home")
                         .padding()
@@ -41,7 +52,26 @@ struct TimerView: View {
 
             }
         }
+        .onChange(of: scenePhase) { _, newScenePhase in
+            if newScenePhase == .background {
+                openWindow(id: "ContentWindow")
+                Task {
+                    await dismissImmersiveSpace()
+                }
+            }
+        }
         .onAppear {
+            dismissWindow(id: "ContentWindow")
+            Task {
+                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
+                    case .opened:
+                        debugPrint("ImmersiveSpace opened")
+                    case .error, .userCancelled:
+                        fallthrough
+                    @unknown default:
+                        break
+                    }
+            }
             timerViewModel.startTimer()
         }
         .onChange(of: contentViewModel.isAllBubbleTapped) { _, newValue in

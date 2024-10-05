@@ -10,24 +10,21 @@ import SwiftUI
 @main
 struct AR_BoardGameApp: App {
     
-    @State private var contentViewMdoel = ContentViewModel()
+    @State private var contentViewModoel = ContentViewModel()
     @State private var timerViewModel = TimerViewModel()
-    @State private var showImmersiveSpace = false
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView(showImmersiveSpace: $showImmersiveSpace)
-                .environment(contentViewMdoel)
+        WindowGroup(id: "ContentWindow") {
+            ContentView(contentViewModel: contentViewModoel)
         }.windowStyle(.volumetric)
 
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
-                .environment(contentViewMdoel)
-                .environment(timerViewModel)
+                .environment(contentViewModoel)
         }
         
         WindowGroup(id: "TimerWindow") {
-            TimerView(showImmersiveSpace: $showImmersiveSpace)
-                .environment(contentViewMdoel)
+            TimerView(contentViewModel: contentViewModoel)
                 .environment(timerViewModel)
         }
     }
