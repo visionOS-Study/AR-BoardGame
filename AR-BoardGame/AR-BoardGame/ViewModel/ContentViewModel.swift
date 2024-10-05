@@ -18,9 +18,15 @@ class ContentViewModel {
     private var textBoundingBox = BoundingBox.empty
     
     private var currentIndex = 1
-    private var countOfBubbles = 20
+    private var countOfBubbles = 10
     private var addedChildList: [Entity] = []
+    
+    func getCurrentIndex() -> Int {
+        currentIndex
+    }
+    
     func resetContentEnityChild() {
+        isAllBubbleTapped = false
         for child in addedChildList {
             contentEntity.removeChild(child)
         }
@@ -179,8 +185,9 @@ class ContentViewModel {
             }
             if currentIndex == countOfBubbles {
                 isAllBubbleTapped = true
+            } else {
+                currentIndex += 1
             }
-            currentIndex += 1
 
         } else {
             

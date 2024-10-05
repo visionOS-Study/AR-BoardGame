@@ -23,6 +23,25 @@ struct TimerView: View {
                 .padding()
             
             VStack {
+                if !contentViewModel.isAllBubbleTapped {
+                    Text("Tap Bubble Number")
+                        .font(.largeTitle)
+                    Text("\(contentViewModel.getCurrentIndex())")
+                        .font(.extraLargeTitle)
+                        .foregroundStyle(.red)
+                        .padding()
+                        .background {
+                            Circle()
+                                .strokeBorder()
+                                .fill(.clear)
+
+                        }
+                } else {
+                    Text("All Bubble Tapped 🎉")
+                        .font(.largeTitle)
+                }
+            
+
                 Button{
                     timerViewModel.resetTimer()
                     contentViewModel.isResetImmersiveContents = true
@@ -79,7 +98,6 @@ struct TimerView: View {
         .onChange(of: contentViewModel.isAllBubbleTapped) { _, newValue in
             if newValue {
                 timerViewModel.stopTimer()
-                contentViewModel.isAllBubbleTapped = false
             }
             
         }
