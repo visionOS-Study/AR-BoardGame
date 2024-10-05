@@ -19,10 +19,12 @@ class ContentViewModel {
     
     private var currentIndex = 1
     private var countOfBubbles = 20
+    private var addedChildList: [Entity] = []
     func resetContentEnityChild() {
-        for child in contentEntity.children {
+        for child in addedChildList {
             contentEntity.removeChild(child)
         }
+        addedChildList = []
     }
     
     func setUpContentEntity() -> Entity {
@@ -48,7 +50,7 @@ class ContentViewModel {
             
             modelEntity.generateCollisionShapes(recursive: true)
             modelEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
-            
+            addedChildList.append(modelEntity)
             contentEntity.addChild(modelEntity)
         }
         
@@ -140,7 +142,6 @@ class ContentViewModel {
             
             coordinates.append(newEntityCoordinate)
         }
-        
         return coordinates
     }
     
@@ -162,7 +163,11 @@ class ContentViewModel {
         
         if entity.name == "index-\(currentIndex)" {
             entity.removeFromParent()
-            
+            for (idx, child) in addedChildList.enumerated() {
+                if child.name == "index-\(currentIndex)" {
+                    addedChildList.remove(at: idx)
+                }
+            }
             addParticleEntity (
                 transForm: entity.transform
             ) { entity in

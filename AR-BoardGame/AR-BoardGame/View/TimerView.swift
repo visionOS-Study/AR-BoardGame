@@ -35,6 +35,7 @@ struct TimerView: View {
                 }
                 Button {
                     timerViewModel.stopTimer()
+                    contentViewModel.resetContentEnityChild()
                     openWindow(id: "ContentWindow")
                     Task {
                         await dismissImmersiveSpace()
@@ -54,6 +55,7 @@ struct TimerView: View {
         }
         .onChange(of: scenePhase) { _, newScenePhase in
             if newScenePhase == .background {
+                contentViewModel.resetContentEnityChild()
                 openWindow(id: "ContentWindow")
                 Task {
                     await dismissImmersiveSpace()
