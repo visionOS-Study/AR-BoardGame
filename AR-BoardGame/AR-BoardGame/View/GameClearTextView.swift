@@ -32,6 +32,7 @@ struct GameClearTextView: View {
                     axis: (x: 1, y: 1, z: 1)
                 )
             }
+            
         }
         .onAppear {
             Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in

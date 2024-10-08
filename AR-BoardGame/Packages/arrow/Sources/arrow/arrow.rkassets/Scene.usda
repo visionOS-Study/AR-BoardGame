@@ -1,0 +1,55 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 1.0 (409.100.15)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Cone "Cone" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        uniform token axis = "Y"
+        double height = 0.2
+        rel material:binding = </Root/Material> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 0.1
+
+        def Material "DefaultMaterial"
+        {
+            prepend token outputs:surface.connect = </Root/Cone/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+    }
+
+    def Material "Material"
+    {
+        token outputs:mtlx:surface
+        token outputs:realitykit:vertex
+        prepend token outputs:surface.connect = </Root/Material/UsdPreviewSurface.outputs:surface>
+
+        def Shader "UsdPreviewSurface"
+        {
+            uniform token info:id = "UsdPreviewSurface"
+            color3f inputs:diffuseColor = (1, 0.4932719, 0.47399843) (
+                colorSpace = "srgb_texture"
+            )
+            token outputs:surface
+        }
+    }
+}
+

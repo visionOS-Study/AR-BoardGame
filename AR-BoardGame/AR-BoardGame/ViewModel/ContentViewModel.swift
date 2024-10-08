@@ -173,9 +173,10 @@ class ContentViewModel {
                 }
             }
             
+            /// ⭐️ 도라미: 임의로 넣어둠!
             if currentIndex > 30 {
-                        showGameClearView()
-                    }
+                showGameClearView()
+            }
             
         } else {
             
@@ -196,7 +197,7 @@ class ContentViewModel {
         }
     }
     
-    /// GPT로 임의로 넣어둠!
+    /// ⭐️ 도라미: GPT로 임의로 넣어둠!
     func showGameClearView() {
         DispatchQueue.main.async {
             // SwiftUI 뷰를 보여줄 수 있도록 코드 추가
@@ -207,5 +208,5 @@ class ContentViewModel {
             }
         }
     }
-
+    
 }
