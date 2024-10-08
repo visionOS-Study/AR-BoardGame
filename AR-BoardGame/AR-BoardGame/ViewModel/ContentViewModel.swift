@@ -18,7 +18,7 @@ class ContentViewModel {
     private var textBoundingBox = BoundingBox.empty
     
     private var currentIndex = 1
-    private var countOfBubbles = 10
+    private var countOfBubbles = 5
     private var addedChildList: [Entity] = []
     
     func getCurrentIndex() -> Int {
@@ -53,9 +53,18 @@ class ContentViewModel {
                 y: Float(coor.y),
                 z: Float(coor.z)
             )
+//            let modelComponent = ModelComponent(
+//                mesh: MeshResource.generateBox(size: boxSize),
+//                materials: [SimpleMaterial(color: .black, roughness: 0.5, isMetallic: false)]
+//            )
+//            let collisionComponent = CollisionComponent(
+//                shapes: [ShapeResource.generateSphere(radius: 0.3)]
+//            )
+            let inputTargetComponent = InputTargetComponent(allowedInputTypes: .all)
+            let hoverEffectComponent = HoverEffectComponent()
             
             modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
+            modelEntity.components.set([inputTargetComponent, hoverEffectComponent])
             addedChildList.append(modelEntity)
             contentEntity.addChild(modelEntity)
         }

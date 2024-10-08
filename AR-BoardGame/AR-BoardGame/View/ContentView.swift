@@ -22,7 +22,9 @@ struct ContentView: View {
             bubbleEntity.addChild(textModelEntity)
             bubbleEntity.position = SIMD3<Float>(x: bubbleEntity.position.x, y: bubbleEntity.position.y - 0.1, z: bubbleEntity.position.z + 0.1)
             bubbleEntity.generateCollisionShapes(recursive: true)
-            bubbleEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
+            let inputTargetComponent = InputTargetComponent(allowedInputTypes: .all)
+            let hoverEffectComponent = HoverEffectComponent()
+            bubbleEntity.components.set([inputTargetComponent, hoverEffectComponent])
             bubbleEntity.name = "Welcome"
             contentEntity.addChild(bubbleEntity)
             content.add(contentEntity)

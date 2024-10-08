@@ -26,9 +26,6 @@ struct ImmersiveView: View {
     .gesture(
         SpatialTapGesture()
             .targetedToAnyEntity()
-            .onChanged { value in
-                
-            }
             .onEnded { event in
                 viewModel.didTapBubbleEntity(entity: event.entity)
             }
