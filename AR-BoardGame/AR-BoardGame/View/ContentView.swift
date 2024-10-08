@@ -49,7 +49,7 @@ struct ContentView: View {
                             deadline: .now() + 1.5
                         ) {
                             particleEntity.removeFromParent()
-                            openWindow(id: "TimerWindow")
+                            openWindow(id: SceneID.WindowGroup.timer.id)
                         }
                         
                     }

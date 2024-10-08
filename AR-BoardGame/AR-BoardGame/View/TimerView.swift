@@ -55,11 +55,11 @@ struct TimerView: View {
                 Button {
                     timerViewModel.stopTimer()
                     contentViewModel.resetContentEnityChild()
-                    openWindow(id: "ContentWindow")
+                    openWindow(id: SceneID.WindowGroup.content.id)
                     Task {
                         await dismissImmersiveSpace()
                     }
-                    dismissWindow(id: "TimerWindow")
+                    dismissWindow(id: SceneID.WindowGroup.timer.id)
                     Task {
                         await dismissImmersiveSpace()
                     }
@@ -75,16 +75,16 @@ struct TimerView: View {
         .onChange(of: scenePhase) { _, newScenePhase in
             if newScenePhase == .background {
                 contentViewModel.resetContentEnityChild()
-                openWindow(id: "ContentWindow")
+                openWindow(id: SceneID.WindowGroup.content.id)
                 Task {
                     await dismissImmersiveSpace()
                 }
             }
         }
         .onAppear {
-            dismissWindow(id: "ContentWindow")
+            dismissWindow(id: SceneID.WindowGroup.content.id)
             Task {
-                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
+                switch await openImmersiveSpace(id: SceneID.ImmersiveSpace.game.id) {
                     case .opened:
                         debugPrint("ImmersiveSpace opened")
                     case .error, .userCancelled:
