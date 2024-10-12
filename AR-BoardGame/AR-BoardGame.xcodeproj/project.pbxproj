@@ -11,6 +11,8 @@
 		E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91052CACEEEE00149ADF /* TimerView.swift */; };
 		E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91092CAD618500149ADF /* TimerViewModel.swift */; };
 		E7374AC22CB4DB3D000A2F18 /* SceneID.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7374AC12CB4DB3D000A2F18 /* SceneID.swift */; };
+		57152D0E2CAF827E00640B40 /* TimeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D0D2CAF827E00640B40 /* TimeRecord.swift */; };
+		57152D112CAF82F100640B40 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D102CAF82F100640B40 /* SwiftDataManager.swift */; };
 		E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764E5412C89208300A3CBEE /* EntityCoordinate.swift */; };
 		E7BEE1862C5FC6C300A4DBC8 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = E7BEE1852C5FC6C300A4DBC8 /* RealityKitContent */; };
 		E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BEE1872C5FC6C300A4DBC8 /* AR_BoardGameApp.swift */; };
@@ -27,6 +29,8 @@
 		E72D91052CACEEEE00149ADF /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		E72D91092CAD618500149ADF /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		E7374AC12CB4DB3D000A2F18 /* SceneID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneID.swift; sourceTree = "<group>"; };
+		57152D0D2CAF827E00640B40 /* TimeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRecord.swift; sourceTree = "<group>"; };
+		57152D102CAF82F100640B40 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		E764E5412C89208300A3CBEE /* EntityCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCoordinate.swift; sourceTree = "<group>"; };
 		E7BEE1802C5FC6C300A4DBC8 /* AR-BoardGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR-BoardGame.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7BEE1842C5FC6C300A4DBC8 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
@@ -60,6 +64,14 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		57152D0F2CAF82E800640B40 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				57152D102CAF82F100640B40 /* SwiftDataManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		E764E53E2C89201800A3CBEE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				E764E5412C89208300A3CBEE /* EntityCoordinate.swift */,
+				57152D0D2CAF827E00640B40 /* TimeRecord.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -113,6 +126,7 @@
 				E764E53F2C89202C00A3CBEE /* View */,
 				E764E53E2C89201800A3CBEE /* ViewModel */,
 				E7374AC02CB4DB13000A2F18 /* Constants */,
+				57152D0F2CAF82E800640B40 /* Manager */,
 				E7BEE18D2C5FC6C500A4DBC8 /* Assets.xcassets */,
 				E7BEE1922C5FC6C500A4DBC8 /* Info.plist */,
 				E7BEE19A2C5FD3E300A4DBC8 /* player_pawn_blue.usdz */,
@@ -216,6 +230,8 @@
 				E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */,
 				E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */,
 				E7374AC22CB4DB3D000A2F18 /* SceneID.swift in Sources */,
+				57152D112CAF82F100640B40 /* SwiftDataManager.swift in Sources */,
+				57152D0E2CAF827E00640B40 /* TimeRecord.swift in Sources */,
 				E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */,
 				E7BEE18A2C5FC6C400A4DBC8 /* ContentView.swift in Sources */,
 				E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */,
