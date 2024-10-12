@@ -54,7 +54,7 @@ struct TimeScoreView: View {
           )
           currentRecord = timeScore
           records = dataManager.fetchTimeRecord(sortBy: .time).map(\.time)
-      }
+        }
       
     }
     

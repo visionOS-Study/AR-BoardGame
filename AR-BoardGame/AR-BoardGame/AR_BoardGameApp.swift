@@ -12,6 +12,7 @@ struct AR_BoardGameApp: App {
     
     @State private var contentViewModel = ContentViewModel()
     @State private var timerViewModel = TimerViewModel()
+    var timerWindowSize: CGSize = CGSize(width: 600, height: 900)
     
     var body: some Scene {
         WindowGroup(id: SceneID.WindowGroup.content.id) {
@@ -27,5 +28,6 @@ struct AR_BoardGameApp: App {
             TimerView(contentViewModel: contentViewModel)
                 .environment(timerViewModel)
         }
+        .defaultSize(width: timerWindowSize.width, height: timerWindowSize.height)
     }
 }

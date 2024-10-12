@@ -12,7 +12,7 @@ class TimerViewModel {
     private var timeElapsed: TimeInterval = 0
     private var timer: Timer?
     private var startDate: Date?
-
+    
     func startTimer() {
         startDate = Date()
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
