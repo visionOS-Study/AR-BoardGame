@@ -55,14 +55,15 @@ struct TimerView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+                
                 Button {
+                    dismissWindow(id: SceneID.WindowGroup.timer.id)
                     timerViewModel.stopTimer()
                     contentViewModel.resetContentEnityChild()
                     openWindow(id: SceneID.WindowGroup.content.id)
                     Task {
                         await dismissImmersiveSpace()
                     }
-                    dismissWindow(id: SceneID.WindowGroup.timer.id)
                 } label: {
                     Text("Back to Home")
                         .padding()
@@ -74,6 +75,7 @@ struct TimerView: View {
         }
         .onChange(of: scenePhase) { _, newScenePhase in
             if newScenePhase == .background {
+                timerViewModel.stopTimer()
                 contentViewModel.resetContentEnityChild()
                 openWindow(id: SceneID.WindowGroup.content.id)
                 Task {

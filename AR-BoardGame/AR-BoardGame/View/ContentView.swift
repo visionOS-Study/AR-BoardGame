@@ -20,6 +20,7 @@ struct ContentView: View {
             let textModelEntity = contentViewModel.makeTextEntity(text: "Welcome", scale: 0.3)
             bubbleEntity.addChild(textModelEntity)
             welcomeEntity.addChild(bubbleEntity)
+            welcomeEntity.position = .init(x: welcomeEntity.position.x, y: welcomeEntity.position.y-0.1, z: welcomeEntity.position.z+0.1)
             content.add(welcomeEntity)
         }
         .gesture(
