@@ -8,23 +8,21 @@
 import SwiftUI
 
 struct TimeScoreView: View {
-  var records: [Float]
-  var currentRecord: Float
-  
-  var sortedRecords: [Float] {
-    return (records + [currentRecord]).sorted()
-  }
+    let dataManager = SwiftDataManager.shared
+    @State private var currentRecord: Double = 0
+    @State private var records: [Double] = []
+    @Environment(TimerViewModel.self) var timerViewModel: TimerViewModel
   
     var body: some View {
       VStack {
-        Text("게임 기록")
+        Text("Time Score Board")
           .font(.largeTitle)
           .padding()
         
         VStack(alignment: .leading, spacing: 10) {
           HStack {
-            Text("이번 게임 시간 : ")
-            Text("\(String(format: "%.2f", currentRecord)) 초")
+            Text("This Game: ")
+            Text("\(String(format: "%.2f", currentRecord)) seconds")
           }
           .padding()
           .font(.headline.bold())
@@ -36,35 +34,50 @@ struct TimeScoreView: View {
             .shadow(radius: 5)
         )
         
-        List {
-
-            ForEach(0..<sortedRecords.count, id: \.self) { index in
-              let record = sortedRecords[index]
-              
-              
-                Text("\(index + 1)위 : \(String(format: "%.2f", sortedRecords[index])) 초")
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, 4)
-//              .background(record == currentRecord ? Color.yellow.opacity(0.5) : Color.clear)
-              .font(record == currentRecord ? .headline : .body)
-              .foregroundColor(record == currentRecord ? Color.red : Color.white)
-              
-            }
-        }
-        .listStyle(.inset)
-        
-        Spacer()
-        
-        Button("완료") {
-          // 완료 버튼 액션
-        }
-        .padding()
-        .buttonStyle(.borderedProminent)
+          List {
+              ForEach(0..<records.count, id: \.self) { index in
+                  let record = records[index]
+                  Text("\(ordinalSuffix(of: index + 1)): \(String(format: "%.2f", record)) seconds")
+                      .frame(maxWidth: .infinity)
+                      .background(record == currentRecord ? Color.yellow.opacity(0.5) : Color.clear)
+                      .padding(.vertical, 4)
+                      .font(record == currentRecord ? .headline : .body)
+                      .foregroundColor(record == currentRecord ? Color.red : Color.white)
+              }
+          }
+          .listStyle(.inset)
+      }
+      .onAppear {
+          let timeScore = timerViewModel.getTimeElaplsed()
+          dataManager.createTimeRecord(
+              TimeRecord(time: timeScore)
+          )
+          currentRecord = timeScore
+          records = dataManager.fetchTimeRecord(sortBy: .time).map(\.time)
       }
       
     }
-}
+    
+    func ordinalSuffix(of number: Int) -> String {
+        let suffix: String
+        let ones = number % 10
+        let tens = (number / 10) % 10
 
-#Preview {
-  TimeScoreView(records: [10, 20, 30], currentRecord: 12.5)
+        if tens == 1 {
+            suffix = "th"
+        } else {
+            switch ones {
+            case 1:
+                suffix = "st"
+            case 2:
+                suffix = "nd"
+            case 3:
+                suffix = "rd"
+            default:
+                suffix = "th"
+            }
+        }
+        
+        return "\(number)\(suffix)"
+    }
 }

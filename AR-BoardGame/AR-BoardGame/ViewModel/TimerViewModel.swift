@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class TimerViewModel {
-    var timeElapsed: TimeInterval = 0
+    private var timeElapsed: TimeInterval = 0
     private var timer: Timer?
     private var startDate: Date?
 
@@ -36,5 +36,9 @@ class TimerViewModel {
         let seconds = Int(timeElapsed) % 60
         let milliseconds = Int((timeElapsed - Double(Int(timeElapsed))) * 100)
         return String(format: "%02d:%02d.%02d", minutes, seconds, milliseconds)
+    }
+    
+    func getTimeElaplsed() -> Double {
+        return timeElapsed
     }
 }
