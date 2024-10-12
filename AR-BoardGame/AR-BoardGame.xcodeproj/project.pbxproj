@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64CEEB862CB1898000C6DB23 /* TimeScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */; };
+		E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91052CACEEEE00149ADF /* TimerView.swift */; };
+		E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91092CAD618500149ADF /* TimerViewModel.swift */; };
+		E7374AC22CB4DB3D000A2F18 /* SceneID.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7374AC12CB4DB3D000A2F18 /* SceneID.swift */; };
 		57152D0E2CAF827E00640B40 /* TimeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D0D2CAF827E00640B40 /* TimeRecord.swift */; };
 		57152D112CAF82F100640B40 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D102CAF82F100640B40 /* SwiftDataManager.swift */; };
 		E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764E5412C89208300A3CBEE /* EntityCoordinate.swift */; };
@@ -21,6 +25,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeScoreView.swift; sourceTree = "<group>"; };
+		E72D91052CACEEEE00149ADF /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		E72D91092CAD618500149ADF /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
+		E7374AC12CB4DB3D000A2F18 /* SceneID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneID.swift; sourceTree = "<group>"; };
 		57152D0D2CAF827E00640B40 /* TimeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRecord.swift; sourceTree = "<group>"; };
 		57152D102CAF82F100640B40 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		E764E5412C89208300A3CBEE /* EntityCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCoordinate.swift; sourceTree = "<group>"; };
@@ -48,6 +56,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E7374AC02CB4DB13000A2F18 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				E7374AC12CB4DB3D000A2F18 /* SceneID.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		57152D0F2CAF82E800640B40 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				E7BEE1982C5FD32F00A4DBC8 /* ContentViewModel.swift */,
+				E72D91092CAD618500149ADF /* TimerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -69,6 +86,8 @@
 			children = (
 				E7BEE1892C5FC6C400A4DBC8 /* ContentView.swift */,
 				E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */,
+				64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */,
+				E72D91052CACEEEE00149ADF /* TimerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -106,6 +125,7 @@
 				E764E5402C89203200A3CBEE /* Model */,
 				E764E53F2C89202C00A3CBEE /* View */,
 				E764E53E2C89201800A3CBEE /* ViewModel */,
+				E7374AC02CB4DB13000A2F18 /* Constants */,
 				57152D0F2CAF82E800640B40 /* Manager */,
 				E7BEE18D2C5FC6C500A4DBC8 /* Assets.xcassets */,
 				E7BEE1922C5FC6C500A4DBC8 /* Info.plist */,
@@ -205,7 +225,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64CEEB862CB1898000C6DB23 /* TimeScoreView.swift in Sources */,
+				E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */,
+				E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */,
 				E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */,
+				E7374AC22CB4DB3D000A2F18 /* SceneID.swift in Sources */,
 				57152D112CAF82F100640B40 /* SwiftDataManager.swift in Sources */,
 				57152D0E2CAF827E00640B40 /* TimeRecord.swift in Sources */,
 				E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */,
