@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64CEEB862CB1898000C6DB23 /* TimeScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */; };
 		E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91052CACEEEE00149ADF /* TimerView.swift */; };
 		E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91092CAD618500149ADF /* TimerViewModel.swift */; };
 		E7374AC22CB4DB3D000A2F18 /* SceneID.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7374AC12CB4DB3D000A2F18 /* SceneID.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeScoreView.swift; sourceTree = "<group>"; };
 		E72D91052CACEEEE00149ADF /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		E72D91092CAD618500149ADF /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		E7374AC12CB4DB3D000A2F18 /* SceneID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneID.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			children = (
 				E7BEE1892C5FC6C400A4DBC8 /* ContentView.swift */,
 				E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */,
+				64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */,
 				E72D91052CACEEEE00149ADF /* TimerView.swift */,
 			);
 			path = View;
@@ -208,6 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64CEEB862CB1898000C6DB23 /* TimeScoreView.swift in Sources */,
 				E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */,
 				E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */,
 				E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */,
