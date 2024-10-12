@@ -39,34 +39,24 @@ class ContentViewModel {
         var coordinates = makeCoordinates(row: 3)
         
         for i in 1...coordinates.count {
-            let modelEntity = makeBubble(String(i))
-            modelEntity.scale = SIMD3(repeating: modelScale)
-            
+            let bubbleEntity = makeBubble("index-\(i)")
             let textModelEntity = makeTextEntity(text: String(i))
-            modelEntity.addChild(textModelEntity)
+            bubbleEntity.addChild(textModelEntity)
             
             coordinates = coordinates.shuffled()
             let coor = coordinates.popLast()!
             
-            modelEntity.position = SIMD3<Float>(
+            let bubblePosition = SIMD3<Float>(
                 x: Float(coor.x),
                 y: Float(coor.y),
                 z: Float(coor.z)
             )
-//            let modelComponent = ModelComponent(
-//                mesh: MeshResource.generateBox(size: boxSize),
-//                materials: [SimpleMaterial(color: .black, roughness: 0.5, isMetallic: false)]
-//            )
-//            let collisionComponent = CollisionComponent(
-//                shapes: [ShapeResource.generateSphere(radius: 0.3)]
-//            )
-            let inputTargetComponent = InputTargetComponent(allowedInputTypes: .all)
-            let hoverEffectComponent = HoverEffectComponent()
             
-            modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.components.set([inputTargetComponent, hoverEffectComponent])
-            addedChildList.append(modelEntity)
-            contentEntity.addChild(modelEntity)
+            bubbleEntity.position = bubblePosition
+            bubbleEntity.scale = SIMD3<Float>(repeating: modelScale)
+            
+            addedChildList.append(bubbleEntity)
+            contentEntity.addChild(bubbleEntity)
         }
         
         currentIndex = 1
@@ -74,7 +64,7 @@ class ContentViewModel {
         return contentEntity
     }
     
-    func addParticleEntity(transForm: Transform, resetParticleClosure: @escaping (Entity) -> Void) {
+    func addParticleEntity(transForm: Transform, resetParticleClosure: @escaping (Entity) -> Void) -> Entity {
         let particleEntity = Entity()
         var emitterComponent = ParticleEmitterComponent()
         
@@ -90,12 +80,12 @@ class ContentViewModel {
         particleEntity.transform = transForm
         // 삭제시 파티클 이름으로 확인
         particleEntity.name = "particle"
-        contentEntity.addChild(particleEntity)
-        
         resetParticleClosure(particleEntity)
+        
+        return particleEntity
     }
     
-    func makeBubble(_ index: String) -> ModelEntity {
+    func makeBubble(_ name: String) -> ModelEntity {
         var clearMaterial = PhysicallyBasedMaterial()
         clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
         clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
@@ -106,7 +96,13 @@ class ContentViewModel {
             collisionShape: .generateSphere(radius: 0.3),
             mass: 0.0
         )
-        entity.name = "index-\(index)"
+        entity.name = name
+        
+        let inputTargetComponent = InputTargetComponent(allowedInputTypes: .all)
+        let hoverEffectComponent = HoverEffectComponent()
+        
+        entity.generateCollisionShapes(recursive: true)
+        entity.components.set([inputTargetComponent, hoverEffectComponent])
         
         return entity
     }
@@ -183,15 +179,17 @@ class ContentViewModel {
                     addedChildList.remove(at: idx)
                 }
             }
-            addParticleEntity (
+            let particleEntity = addParticleEntity (
                 transForm: entity.transform
-            ) { entity in
+            ) { particleEntity in
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + 1.5
                 ) {
-                    entity.removeFromParent()
+                    particleEntity.removeFromParent()
                 }
             }
+            contentEntity.addChild(particleEntity)
+            
             if currentIndex == countOfBubbles {
                 isAllBubbleTapped = true
             } else {

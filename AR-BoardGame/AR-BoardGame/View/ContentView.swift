@@ -12,22 +12,15 @@ import RealityKitContent
 struct ContentView: View {
     @Environment(\.openWindow) var openWindow
     @Bindable var contentViewModel: ContentViewModel
-    @State private var contentEntity = Entity()
+    @State private var welcomeEntity = Entity()
     
     var body: some View {
         RealityView { content in
             let bubbleEntity = contentViewModel.makeBubble("Welcome")
-            bubbleEntity.scale = SIMD3(repeating: 1)
             let textModelEntity = contentViewModel.makeTextEntity(text: "Welcome", scale: 0.3)
             bubbleEntity.addChild(textModelEntity)
-            bubbleEntity.position = SIMD3<Float>(x: bubbleEntity.position.x, y: bubbleEntity.position.y - 0.1, z: bubbleEntity.position.z + 0.1)
-            bubbleEntity.generateCollisionShapes(recursive: true)
-            let inputTargetComponent = InputTargetComponent(allowedInputTypes: .all)
-            let hoverEffectComponent = HoverEffectComponent()
-            bubbleEntity.components.set([inputTargetComponent, hoverEffectComponent])
-            bubbleEntity.name = "Welcome"
-            contentEntity.addChild(bubbleEntity)
-            content.add(contentEntity)
+            welcomeEntity.addChild(bubbleEntity)
+            content.add(welcomeEntity)
         }
         .gesture(
             SpatialTapGesture()
@@ -37,21 +30,16 @@ struct ContentView: View {
                 }
                 .onEnded { event in
                     if event.entity.name == "Welcome" {
-                        let particleEntity = addParticleEntity(transForm: event.entity.transform)
-                        contentEntity.children.forEach {
-                            if $0.name == "Welcome" {
-                                $0.removeFromParent()
+                        let particleEntity = contentViewModel.addParticleEntity(transForm: event.entity.transform) { particleEntity in
+                            DispatchQueue.main.asyncAfter(
+                                deadline: .now() + 1.5
+                            ) {
+                                particleEntity.removeFromParent()
+                                openWindow(id: SceneID.WindowGroup.timer.id)
                             }
                         }
-                        contentEntity.addChild(particleEntity)
-                        
-                        DispatchQueue.main.asyncAfter(
-                            deadline: .now() + 1.5
-                        ) {
-                            particleEntity.removeFromParent()
-                            openWindow(id: SceneID.WindowGroup.timer.id)
-                        }
-                        
+                        event.entity.removeFromParent()
+                        welcomeEntity.addChild(particleEntity)
                     }
                 }
         )
@@ -61,24 +49,6 @@ struct ContentView: View {
 
             }
         }
-    }
-    private func addParticleEntity(transForm: Transform) -> Entity {
-        let particleEntity = Entity()
-        var emitterComponent = ParticleEmitterComponent()
-        
-        let emitDuration = ParticleEmitterComponent.Timing.VariableDuration(duration: 1.0)
-        emitterComponent.timing = .once(warmUp: nil, emit: emitDuration)
-        emitterComponent.emitterShape = ParticleEmitterComponent.EmitterShape.sphere
-        
-        emitterComponent.speed = 1
-        emitterComponent.mainEmitter.birthRate = 100
-        emitterComponent.mainEmitter.color = .constant(.single(.white))
-        
-        particleEntity.components.set(emitterComponent)
-        particleEntity.transform = transForm
-        // 삭제시 파티클 이름으로 확인
-        particleEntity.name = "particle"
-        return particleEntity
     }
 }
 
