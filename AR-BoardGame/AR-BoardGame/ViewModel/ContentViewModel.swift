@@ -12,16 +12,25 @@ import RealityKitContent
 @Observable
 class ContentViewModel {
     var isResetImmersiveContents = false
+    var isAllBubbleTapped = false
     var contentEntity = Entity()
     private let modelScale: Float = 0.3
     private var textBoundingBox = BoundingBox.empty
     
     private var currentIndex = 1
+    private var countOfBubbles = 5
+    private var addedChildList: [Entity] = []
+    
+    func getCurrentIndex() -> Int {
+        currentIndex
+    }
     
     func resetContentEnityChild() {
-        for child in contentEntity.children {
+        isAllBubbleTapped = false
+        for child in addedChildList {
             contentEntity.removeChild(child)
         }
+        addedChildList = []
     }
     
     func setUpContentEntity() -> Entity {
@@ -30,25 +39,24 @@ class ContentViewModel {
         var coordinates = makeCoordinates(row: 3)
         
         for i in 1...coordinates.count {
-            let modelEntity = makeBubble(String(i))
-            modelEntity.scale = SIMD3(repeating: modelScale)
-            
+            let bubbleEntity = makeBubble("index-\(i)")
             let textModelEntity = makeTextEntity(text: String(i))
-            modelEntity.addChild(textModelEntity)
+            bubbleEntity.addChild(textModelEntity)
             
             coordinates = coordinates.shuffled()
             let coor = coordinates.popLast()!
             
-            modelEntity.position = SIMD3<Float>(
+            let bubblePosition = SIMD3<Float>(
                 x: Float(coor.x),
                 y: Float(coor.y),
                 z: Float(coor.z)
             )
             
-            modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.components.set(InputTargetComponent(allowedInputTypes: .all))
+            bubbleEntity.position = bubblePosition
+            bubbleEntity.scale = SIMD3<Float>(repeating: modelScale)
             
-            contentEntity.addChild(modelEntity)
+            addedChildList.append(bubbleEntity)
+            contentEntity.addChild(bubbleEntity)
         }
         
         currentIndex = 1
@@ -56,7 +64,7 @@ class ContentViewModel {
         return contentEntity
     }
     
-    func addParticleEntity(transForm: Transform, resetParticleClosure: @escaping (Entity) -> Void) {
+    func addParticleEntity(transForm: Transform, resetParticleClosure: @escaping (Entity) -> Void) -> Entity {
         let particleEntity = Entity()
         var emitterComponent = ParticleEmitterComponent()
         
@@ -72,12 +80,12 @@ class ContentViewModel {
         particleEntity.transform = transForm
         // 삭제시 파티클 이름으로 확인
         particleEntity.name = "particle"
-        contentEntity.addChild(particleEntity)
-        
         resetParticleClosure(particleEntity)
+        
+        return particleEntity
     }
     
-    func makeBubble(_ index: String) -> ModelEntity {
+    func makeBubble(_ name: String) -> ModelEntity {
         var clearMaterial = PhysicallyBasedMaterial()
         clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
         clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
@@ -88,7 +96,13 @@ class ContentViewModel {
             collisionShape: .generateSphere(radius: 0.3),
             mass: 0.0
         )
-        entity.name = "index-\(index)"
+        entity.name = name
+        
+        let inputTargetComponent = InputTargetComponent(allowedInputTypes: .all)
+        let hoverEffectComponent = HoverEffectComponent()
+        
+        entity.generateCollisionShapes(recursive: true)
+        entity.components.set([inputTargetComponent, hoverEffectComponent])
         
         return entity
     }
@@ -128,7 +142,7 @@ class ContentViewModel {
         // 내 뒤에까지 방울을 배치
         let zRange: ClosedRange<Float> = -1.0 ... 0.5
         
-        for _ in 0..<30 {
+        for _ in 0..<countOfBubbles {
             var newEntityCoordinate: EntityCoordinate
             repeat {
                 let randomX = Float.random(in: xRange)
@@ -139,7 +153,6 @@ class ContentViewModel {
             
             coordinates.append(newEntityCoordinate)
         }
-        
         return coordinates
     }
     
@@ -160,18 +173,29 @@ class ContentViewModel {
     func didTapBubbleEntity(entity: Entity) {
         
         if entity.name == "index-\(currentIndex)" {
-            currentIndex += 1
             entity.removeFromParent()
-            
-            addParticleEntity (
+            for (idx, child) in addedChildList.enumerated() {
+                if child.name == "index-\(currentIndex)" {
+                    addedChildList.remove(at: idx)
+                }
+            }
+            let particleEntity = addParticleEntity (
                 transForm: entity.transform
-            ) { entity in
+            ) { particleEntity in
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + 1.5
                 ) {
-                    entity.removeFromParent()
+                    particleEntity.removeFromParent()
                 }
             }
+            contentEntity.addChild(particleEntity)
+            
+            if currentIndex == countOfBubbles {
+                isAllBubbleTapped = true
+            } else {
+                currentIndex += 1
+            }
+
         } else {
             
             if let modelEntity = entity as? ModelEntity {

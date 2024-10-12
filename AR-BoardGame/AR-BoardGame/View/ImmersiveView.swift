@@ -26,9 +26,6 @@ struct ImmersiveView: View {
     .gesture(
         SpatialTapGesture()
             .targetedToAnyEntity()
-            .onChanged { value in
-                
-            }
             .onEnded { event in
                 viewModel.didTapBubbleEntity(entity: event.entity)
             }
@@ -36,13 +33,13 @@ struct ImmersiveView: View {
     .onChange(of: viewModel.isResetImmersiveContents) { _ ,newValue in
         if newValue {
             root = viewModel.setUpContentEntity()
-        viewModel.isResetImmersiveContents = false
-      }
+            viewModel.isResetImmersiveContents = false
+        }
     }
   }
 }
 
 #Preview(immersionStyle: .mixed) {
-  ImmersiveView()
-    .environment(ContentViewModel())
+    ImmersiveView()
+        .environment(ContentViewModel())
 }
