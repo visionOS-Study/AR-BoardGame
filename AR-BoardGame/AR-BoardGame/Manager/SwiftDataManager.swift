@@ -37,11 +37,11 @@ extension SwiftDataManager {
   
   func fetchTimeRecord(sortBy: SortType) -> [TimeRecord] {
     let sort = sortBy == .date
-    ? SortDescriptor(\TimeRecord.date, order: .reverse)
-    : SortDescriptor(\TimeRecord.time, order: .reverse)
+      ? SortDescriptor(\TimeRecord.date, order: .forward)
+      : SortDescriptor(\TimeRecord.time, order: .forward)
     
-    let descriptor = FetchDescriptor(sortBy: [sort])
-    
+    var descriptor = FetchDescriptor(sortBy: [sort])
+    descriptor.fetchLimit = 10
     let datas = try? modelContext.fetch(descriptor)
     return datas ?? []
   }
