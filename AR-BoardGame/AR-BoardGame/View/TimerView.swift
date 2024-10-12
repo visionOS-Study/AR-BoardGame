@@ -39,6 +39,9 @@ struct TimerView: View {
                 } else {
                     Text("All Bubble Tapped 🎉")
                         .font(.largeTitle)
+                        .onAppear {
+                            timerViewModel.stopTimer()
+                        }
                 }
             
 
@@ -60,9 +63,6 @@ struct TimerView: View {
                         await dismissImmersiveSpace()
                     }
                     dismissWindow(id: SceneID.WindowGroup.timer.id)
-                    Task {
-                        await dismissImmersiveSpace()
-                    }
                 } label: {
                     Text("Back to Home")
                         .padding()
@@ -94,12 +94,6 @@ struct TimerView: View {
                     }
             }
             timerViewModel.startTimer()
-        }
-        .onChange(of: contentViewModel.isAllBubbleTapped) { _, newValue in
-            if newValue {
-                timerViewModel.stopTimer()
-            }
-            
         }
     }
 }
