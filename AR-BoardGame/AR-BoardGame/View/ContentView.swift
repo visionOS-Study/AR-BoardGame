@@ -10,52 +10,46 @@ import RealityKit
 import RealityKitContent
 
 struct ContentView: View {
-  @Environment(ContentViewModel.self) var viewModel: ContentViewModel
-  @State private var showImmersiveSpace = false
-  @Environment(\.openImmersiveSpace) var openImmersiveSpace
-  @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
-  
-  var body: some View {
-    RealityView { content in
-      let bubbleEntity = viewModel.makeBubble("Welcome")
-      bubbleEntity.scale = SIMD3(repeating: 1)
-      let textModelEntity = viewModel.makeTextEntity(text: "Welcome", scale: 0.3)
-      bubbleEntity.addChild(textModelEntity)
-      
-      content.add(bubbleEntity)
-    } update: { content in
-      
-    }
-    .onChange(of: showImmersiveSpace) { _, newValue in
-      Task {
-        if newValue {
-          switch await openImmersiveSpace(id: "ImmersiveSpace") {
-          case .opened:
-            debugPrint("ImmersiveSpace opened")
-          case .error, .userCancelled:
-            fallthrough
-          @unknown default:
-            showImmersiveSpace = false
-          }
-        } else {
-          await dismissImmersiveSpace()
+    @Environment(\.openWindow) var openWindow
+    @Bindable var contentViewModel: ContentViewModel
+    @State private var welcomeEntity = Entity()
+    
+    var body: some View {
+        RealityView { content in
+            let bubbleEntity = contentViewModel.makeBubble("Welcome")
+            let textModelEntity = contentViewModel.makeTextEntity(text: "Welcome", scale: 0.3)
+            bubbleEntity.addChild(textModelEntity)
+            welcomeEntity.addChild(bubbleEntity)
+            welcomeEntity.position = .init(x: welcomeEntity.position.x, y: welcomeEntity.position.y-0.1, z: welcomeEntity.position.z+0.1)
+            content.add(welcomeEntity)
         }
-      }
-    }
-    .toolbar {
-      ToolbarItemGroup(placement: .bottomOrnament) {
-        VStack (spacing: 12) {
-          Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
-          Button("Reset ImmersiveNumber") {
-            viewModel.isResetImmersiveContents = true
-          }
+        .gesture(
+            SpatialTapGesture()
+                .targetedToAnyEntity()
+                .onChanged { value in
+                    
+                }
+                .onEnded { event in
+                    if event.entity.name == "Welcome" {
+                        let particleEntity = contentViewModel.addParticleEntity(transForm: event.entity.transform) { particleEntity in
+                            DispatchQueue.main.asyncAfter(
+                                deadline: .now() + 1.5
+                            ) {
+                                particleEntity.removeFromParent()
+                                openWindow(id: SceneID.WindowGroup.timer.id)
+                            }
+                        }
+                        event.entity.removeFromParent()
+                        welcomeEntity.addChild(particleEntity)
+                    }
+                }
+        )
+        .toolbar {
+            ToolbarItemGroup(placement: .bottomOrnament) {
+                Text("Tap Welcome Bubble!")
+
+            }
         }
-      }
     }
-  }
 }
 
-#Preview(windowStyle: .volumetric) {
-  ContentView()
-    .environment(ContentViewModel())
-}
