@@ -14,7 +14,7 @@ struct GameClearView: View {
     var body: some View {
         GeometryReader3D { geometry in
             RealityView { content in
-                let radius: Float = 0.3
+                let radius: Float = 0.2
                 let angleIncrement = 360.0 / 6.0
                 
                 for i in 0..<6 {
@@ -22,7 +22,7 @@ struct GameClearView: View {
                     
                     let firework = fireworkEntity
                     firework.position.x = radius * cos(angle)
-                    firework.position.y = radius * sin(angle) - 0.1
+                    firework.position.y = radius * sin(angle) - 0.3
                     firework.position.z = -0.1
                     
                     content.add(firework)
@@ -33,7 +33,7 @@ struct GameClearView: View {
                 for (index, char) in text.enumerated() {
                     let textEntity = createTextEntity(String(char))
                     textEntity.scale = [0.1, 0.1, 0.1]
-                    textEntity.position = [Float(index) * 0.07 - 0.3, 0, 0.1]
+                    textEntity.position = [Float(index) * 0.07 - 0.3, 0, -0.1]
                     content.add(textEntity)
                     
                     rotateTextEntity(to: textEntity, index: index)
