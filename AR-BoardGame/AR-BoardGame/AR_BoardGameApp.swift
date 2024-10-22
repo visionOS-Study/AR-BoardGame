@@ -14,7 +14,7 @@ struct AR_BoardGameApp: App {
     
     var body: some Scene {
         WindowGroup {
-            GameClearTextView()
+            GameClearView()
             //ContentView()
                 //.environment(contentViewMdoel)
         }.windowStyle(.volumetric)

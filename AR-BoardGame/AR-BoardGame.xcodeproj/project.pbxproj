@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		867904B62CC73DF9000938D1 /* GameClearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867904B52CC73DF9000938D1 /* GameClearView.swift */; };
+		867904B82CC7492E000938D1 /* FireworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867904B72CC7492E000938D1 /* FireworkView.swift */; };
 		86DF2DED2CAD7E5D003D1866 /* GameClearTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF2DEC2CAD7E5D003D1866 /* GameClearTextView.swift */; };
 		E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764E5412C89208300A3CBEE /* EntityCoordinate.swift */; };
 		E7BEE1862C5FC6C300A4DBC8 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = E7BEE1852C5FC6C300A4DBC8 /* RealityKitContent */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		867904B52CC73DF9000938D1 /* GameClearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameClearView.swift; sourceTree = "<group>"; };
+		867904B72CC7492E000938D1 /* FireworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireworkView.swift; sourceTree = "<group>"; };
 		86DF2DEC2CAD7E5D003D1866 /* GameClearTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameClearTextView.swift; sourceTree = "<group>"; };
 		E764E5412C89208300A3CBEE /* EntityCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCoordinate.swift; sourceTree = "<group>"; };
 		E7BEE1802C5FC6C300A4DBC8 /* AR-BoardGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR-BoardGame.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +64,8 @@
 				E7BEE1892C5FC6C400A4DBC8 /* ContentView.swift */,
 				E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */,
 				86DF2DEC2CAD7E5D003D1866 /* GameClearTextView.swift */,
+				867904B72CC7492E000938D1 /* FireworkView.swift */,
+				867904B52CC73DF9000938D1 /* GameClearView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,9 +201,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7BEE1992C5FD32F00A4DBC8 /* ContentViewModel.swift in Sources */,
+				867904B82CC7492E000938D1 /* FireworkView.swift in Sources */,
 				86DF2DED2CAD7E5D003D1866 /* GameClearTextView.swift in Sources */,
 				E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */,
 				E7BEE18A2C5FC6C400A4DBC8 /* ContentView.swift in Sources */,
+				867904B62CC73DF9000938D1 /* GameClearView.swift in Sources */,
 				E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */,
 				E7BEE18C2C5FC6C400A4DBC8 /* ImmersiveView.swift in Sources */,
 			);
