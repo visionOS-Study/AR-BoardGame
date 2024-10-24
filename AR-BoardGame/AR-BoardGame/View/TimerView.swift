@@ -16,6 +16,9 @@ struct TimerView: View {
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     @Environment(\.scenePhase) var scenePhase
     
+    @State private var showGameClear = true
+    @State private var fadeOut = false
+    
     var body: some View {
         VStack {
             if !contentViewModel.isAllBubbleTapped {
@@ -36,10 +39,26 @@ struct TimerView: View {
                         
                     }
             } else {
-                TimeScoreView()
-                    .onAppear {
-                        timerViewModel.stopTimer()
-                    }
+                
+                if showGameClear {
+                    GameClearView()
+                        .opacity(fadeOut ? 0 : 1)
+                        .onAppear {
+                            timerViewModel.stopTimer()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                withAnimation(.easeOut(duration: 2.0)) {
+                                    fadeOut = true
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                    showGameClear = false
+                                }
+                            }
+                        }
+                } else {
+                    TimeScoreView()
+                }
+                
             }
             
             
@@ -86,13 +105,13 @@ struct TimerView: View {
             dismissWindow(id: SceneID.WindowGroup.content.id)
             Task {
                 switch await openImmersiveSpace(id: SceneID.ImmersiveSpace.game.id) {
-                    case .opened:
-                        debugPrint("ImmersiveSpace opened")
-                    case .error, .userCancelled:
-                        fallthrough
-                    @unknown default:
-                        break
-                    }
+                case .opened:
+                    debugPrint("ImmersiveSpace opened")
+                case .error, .userCancelled:
+                    fallthrough
+                @unknown default:
+                    break
+                }
             }
             timerViewModel.startTimer()
         }

@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57152D0E2CAF827E00640B40 /* TimeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D0D2CAF827E00640B40 /* TimeRecord.swift */; };
+		57152D112CAF82F100640B40 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D102CAF82F100640B40 /* SwiftDataManager.swift */; };
 		64CEEB862CB1898000C6DB23 /* TimeScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */; };
+		867904BA2CC7D3A7000938D1 /* GameClearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867904B92CC7D3A7000938D1 /* GameClearView.swift */; };
+		867904BE2CC7DDDE000938D1 /* bubblePop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 867904BD2CC7DDDE000938D1 /* bubblePop.wav */; };
+		867904C02CC7DDEA000938D1 /* BGM.wav in Resources */ = {isa = PBXBuildFile; fileRef = 867904BF2CC7DDEA000938D1 /* BGM.wav */; };
 		E72D91062CACEEEE00149ADF /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91052CACEEEE00149ADF /* TimerView.swift */; };
 		E72D910A2CAD618500149ADF /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72D91092CAD618500149ADF /* TimerViewModel.swift */; };
 		E7374AC22CB4DB3D000A2F18 /* SceneID.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7374AC12CB4DB3D000A2F18 /* SceneID.swift */; };
-		57152D0E2CAF827E00640B40 /* TimeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D0D2CAF827E00640B40 /* TimeRecord.swift */; };
-		57152D112CAF82F100640B40 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57152D102CAF82F100640B40 /* SwiftDataManager.swift */; };
 		E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764E5412C89208300A3CBEE /* EntityCoordinate.swift */; };
 		E7BEE1862C5FC6C300A4DBC8 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = E7BEE1852C5FC6C300A4DBC8 /* RealityKitContent */; };
 		E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BEE1872C5FC6C300A4DBC8 /* AR_BoardGameApp.swift */; };
@@ -25,12 +28,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		57152D0D2CAF827E00640B40 /* TimeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRecord.swift; sourceTree = "<group>"; };
+		57152D102CAF82F100640B40 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeScoreView.swift; sourceTree = "<group>"; };
+		867904B92CC7D3A7000938D1 /* GameClearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameClearView.swift; sourceTree = "<group>"; };
+		867904BD2CC7DDDE000938D1 /* bubblePop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bubblePop.wav; sourceTree = "<group>"; };
+		867904BF2CC7DDEA000938D1 /* BGM.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BGM.wav; sourceTree = "<group>"; };
 		E72D91052CACEEEE00149ADF /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		E72D91092CAD618500149ADF /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		E7374AC12CB4DB3D000A2F18 /* SceneID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneID.swift; sourceTree = "<group>"; };
-		57152D0D2CAF827E00640B40 /* TimeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRecord.swift; sourceTree = "<group>"; };
-		57152D102CAF82F100640B40 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		E764E5412C89208300A3CBEE /* EntityCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCoordinate.swift; sourceTree = "<group>"; };
 		E7BEE1802C5FC6C300A4DBC8 /* AR-BoardGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR-BoardGame.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7BEE1842C5FC6C300A4DBC8 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
@@ -56,20 +62,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E7374AC02CB4DB13000A2F18 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				E7374AC12CB4DB3D000A2F18 /* SceneID.swift */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
 		57152D0F2CAF82E800640B40 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
 				57152D102CAF82F100640B40 /* SwiftDataManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		E7374AC02CB4DB13000A2F18 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				E7374AC12CB4DB3D000A2F18 /* SceneID.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		E764E53E2C89201800A3CBEE /* ViewModel */ = {
@@ -88,6 +94,7 @@
 				E7BEE18B2C5FC6C400A4DBC8 /* ImmersiveView.swift */,
 				64CEEB852CB1898000C6DB23 /* TimeScoreView.swift */,
 				E72D91052CACEEEE00149ADF /* TimerView.swift */,
+				867904B92CC7D3A7000938D1 /* GameClearView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -138,6 +145,8 @@
 		E7BEE1832C5FC6C300A4DBC8 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				867904BD2CC7DDDE000938D1 /* bubblePop.wav */,
+				867904BF2CC7DDEA000938D1 /* BGM.wav */,
 				E7BEE1842C5FC6C300A4DBC8 /* RealityKitContent */,
 			);
 			path = Packages;
@@ -213,8 +222,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7BEE1912C5FC6C500A4DBC8 /* Preview Assets.xcassets in Resources */,
+				867904BE2CC7DDDE000938D1 /* bubblePop.wav in Resources */,
 				E7BEE18E2C5FC6C500A4DBC8 /* Assets.xcassets in Resources */,
 				E7BEE19B2C5FD3E400A4DBC8 /* player_pawn_blue.usdz in Resources */,
+				867904C02CC7DDEA000938D1 /* BGM.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +246,7 @@
 				E764E5422C89208300A3CBEE /* EntityCoordinate.swift in Sources */,
 				E7BEE18A2C5FC6C400A4DBC8 /* ContentView.swift in Sources */,
 				E7BEE1882C5FC6C300A4DBC8 /* AR_BoardGameApp.swift in Sources */,
+				867904BA2CC7D3A7000938D1 /* GameClearView.swift in Sources */,
 				E7BEE18C2C5FC6C400A4DBC8 /* ImmersiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
