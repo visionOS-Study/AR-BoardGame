@@ -84,6 +84,7 @@ class ContentViewModel {
         
         return particleEntity
     }
+
     
     func makeBubble(_ name: String) -> ModelEntity {
         var clearMaterial = PhysicallyBasedMaterial()
@@ -190,6 +191,18 @@ class ContentViewModel {
             }
             contentEntity.addChild(particleEntity)
             
+            let bubblePopAudioEntity = createSpatialAudio()
+            particleEntity.addChild(bubblePopAudioEntity)
+            
+            do {
+                let resource = try AudioFileResource.load(named: "bubblePop.wav")
+                bubblePopAudioEntity.playAudio(resource)
+
+            } catch {
+                print("Error loading audio file: \(error.localizedDescription)")
+            }
+            
+            
             if currentIndex == countOfBubbles {
                 isAllBubbleTapped = true
             } else {
@@ -213,5 +226,15 @@ class ContentViewModel {
                 }
             }
         }
+        
+        
+        func createSpatialAudio() -> Entity{
+            let audioSource = Entity()
+            audioSource.name = "buublePop"
+            audioSource.spatialAudio = SpatialAudioComponent(gain: -10)
+            audioSource.spatialAudio?.directivity = .beam(focus: 1)
+            return audioSource
+        }
+                   
     }
 }

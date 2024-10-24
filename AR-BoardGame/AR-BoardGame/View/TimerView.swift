@@ -26,7 +26,7 @@ struct TimerView: View {
                     .font(.largeTitle)
                     .padding()
                 
-                Text("Tap Bubble Number")
+                Text("Next Number")
                     .font(.largeTitle)
                 Text("\(contentViewModel.getCurrentIndex())")
                     .font(.extraLargeTitle)
