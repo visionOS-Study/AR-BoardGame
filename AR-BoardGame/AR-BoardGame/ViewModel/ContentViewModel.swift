@@ -241,7 +241,7 @@ class ContentViewModel {
     func addAmbientAudio() -> Entity{
         let audioSource = Entity()
         audioSource.name = "BGM"
-        audioSource.ambientAudio = AmbientAudioComponent(gain: -30)
+        audioSource.ambientAudio = AmbientAudioComponent(gain: -10)
         
         do {
             let resource = try AudioFileResource.load(named: "BGM.wav")

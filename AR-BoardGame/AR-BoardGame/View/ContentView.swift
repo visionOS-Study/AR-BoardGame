@@ -22,6 +22,7 @@ struct ContentView: View {
             welcomeEntity.addChild(bubbleEntity)
             welcomeEntity.position = .init(x: welcomeEntity.position.x, y: welcomeEntity.position.y-0.1, z: welcomeEntity.position.z+0.1)
             content.add(welcomeEntity)
+           
         }
         .gesture(
             SpatialTapGesture()
@@ -32,6 +33,17 @@ struct ContentView: View {
                 .onEnded { event in
                     if event.entity.name == "Welcome" {
                         let particleEntity = contentViewModel.addParticleEntity(transForm: event.entity.transform) { particleEntity in
+                            let spatialAudio = contentViewModel.createSpatialAudio()
+                            welcomeEntity.addChild(spatialAudio)
+
+                            do {
+                                let resource = try AudioFileResource.load(named: "bubblePop.wav")
+                                spatialAudio.playAudio(resource)
+
+                            } catch {
+                                print("Error loading audio file: \(error.localizedDescription)")
+                            }
+                            
                             DispatchQueue.main.asyncAfter(
                                 deadline: .now() + 1.5
                             ) {
