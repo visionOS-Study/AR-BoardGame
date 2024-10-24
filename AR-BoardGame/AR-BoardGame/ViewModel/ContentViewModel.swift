@@ -36,6 +36,8 @@ class ContentViewModel {
     func setUpContentEntity() -> Entity {
         resetContentEnityChild()
         
+        contentEntity.addChild(addAmbientAudio())
+        
         var coordinates = makeCoordinates(row: 3)
         
         for i in 1...coordinates.count {
@@ -226,15 +228,28 @@ class ContentViewModel {
                 }
             }
         }
+    }
+    
+    func createSpatialAudio() -> Entity{
+        let audioSource = Entity()
+        audioSource.name = "buublePop"
+        audioSource.spatialAudio = SpatialAudioComponent(gain: 0)
+        audioSource.spatialAudio?.directivity = .beam(focus: 1)
+        return audioSource
+    }
+    
+    func addAmbientAudio() -> Entity{
+        let audioSource = Entity()
+        audioSource.name = "BGM"
+        audioSource.ambientAudio = AmbientAudioComponent(gain: -30)
         
-        
-        func createSpatialAudio() -> Entity{
-            let audioSource = Entity()
-            audioSource.name = "buublePop"
-            audioSource.spatialAudio = SpatialAudioComponent(gain: -10)
-            audioSource.spatialAudio?.directivity = .beam(focus: 1)
-            return audioSource
+        do {
+            let resource = try AudioFileResource.load(named: "BGM.wav")
+            audioSource.playAudio(resource)
+
+        } catch {
+            print("Error loading audio file: \(error.localizedDescription)")
         }
-                   
+        return audioSource
     }
 }
