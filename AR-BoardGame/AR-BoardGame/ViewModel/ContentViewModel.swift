@@ -214,17 +214,19 @@ class ContentViewModel {
         } else {
             
             if let modelEntity = entity as? ModelEntity {
-                let originalMaterials = modelEntity.model?.materials
+                var clearMaterial = PhysicallyBasedMaterial()
+                clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
+                clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
                 
                 var clearRedMaterial = PhysicallyBasedMaterial()
                 clearRedMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
-                clearRedMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
-                clearRedMaterial.baseColor = .init(tint: .red.withAlphaComponent(0.5))
+                clearRedMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.4))
+                clearRedMaterial.baseColor = .init(tint: .red.withAlphaComponent(1.0))
                 modelEntity.model?.materials = [clearRedMaterial]
                 
                 // 3초 뒤 원래대로
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    modelEntity.model?.materials = originalMaterials ?? []
+                    modelEntity.model?.materials = [clearMaterial]
                 }
             }
         }
