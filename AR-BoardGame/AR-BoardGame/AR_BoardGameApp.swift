@@ -22,6 +22,8 @@ struct AR_BoardGameApp: App {
         ImmersiveSpace(id: SceneID.ImmersiveSpace.game.id) {
             ImmersiveView()
                 .environment(contentViewModel)
+                .preferredSurroundingsEffect(.dark)
+                
         }
         
         WindowGroup(id: SceneID.WindowGroup.timer.id) {
