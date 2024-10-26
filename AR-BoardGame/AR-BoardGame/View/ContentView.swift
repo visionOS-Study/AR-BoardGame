@@ -23,6 +23,8 @@ struct ContentView: View {
             welcomeEntity.position = .init(x: welcomeEntity.position.x, y: welcomeEntity.position.y-0.1, z: welcomeEntity.position.z+0.1)
             content.add(welcomeEntity)
            
+        } update: { content in
+            guard let ambientSource = contentViewModel.contentEntity.findEntity(named: "BGM" ) else { return }
         }
         .gesture(
             SpatialTapGesture()
@@ -37,7 +39,7 @@ struct ContentView: View {
                             welcomeEntity.addChild(spatialAudio)
 
                             do {
-                                let resource = try AudioFileResource.load(named: "bubblePop.wav")
+                                let resource = try AudioFileResource.load(named: "bubblePop.mp3")
                                 spatialAudio.playAudio(resource)
 
                             } catch {

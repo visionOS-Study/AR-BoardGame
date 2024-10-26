@@ -20,6 +20,7 @@ class ContentViewModel {
     private var currentIndex = 1
     private var countOfBubbles = 5
     private var addedChildList: [Entity] = []
+    private var bgmController: AudioPlaybackController?
     
     func getCurrentIndex() -> Int {
         currentIndex
@@ -204,7 +205,7 @@ class ContentViewModel {
             particleEntity.addChild(bubblePopAudioEntity)
             
             do {
-                let resource = try AudioFileResource.load(named: "bubblePop.wav")
+                let resource = try AudioFileResource.load(named: "bubblePop.mp3")
                 bubblePopAudioEntity.playAudio(resource)
 
             } catch {
@@ -250,11 +251,12 @@ class ContentViewModel {
     func addAmbientAudio() -> Entity{
         let audioSource = Entity()
         audioSource.name = "BGM"
-        audioSource.ambientAudio = AmbientAudioComponent(gain: -10)
+        audioSource.ambientAudio = AmbientAudioComponent(gain: -20)
         
         do {
-            let resource = try AudioFileResource.load(named: "BGM.wav")
-            audioSource.playAudio(resource)
+            let resource = try AudioFileResource.load(named: "BGM.mp3")
+            bgmController = audioSource.playAudio(resource)
+            bgmController?.seek(to: .seconds(3))
 
         } catch {
             print("Error loading audio file: \(error.localizedDescription)")
