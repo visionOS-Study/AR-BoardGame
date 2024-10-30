@@ -102,7 +102,7 @@ struct TimerView: View {
             }
         }
         .onAppear {
-            dismissWindow(id: SceneID.WindowGroup.content.id)
+            dismissWindow(id: SceneID.WindowGroup.alert.id)
             Task {
                 switch await openImmersiveSpace(id: SceneID.ImmersiveSpace.game.id) {
                 case .opened:

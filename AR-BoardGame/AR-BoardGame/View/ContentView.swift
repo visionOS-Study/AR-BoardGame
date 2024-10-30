@@ -13,7 +13,7 @@ struct ContentView: View {
     @Environment(\.openWindow) var openWindow
     @Bindable var contentViewModel: ContentViewModel
     @State private var welcomeEntity = Entity()
-    
+
     var body: some View {
         RealityView { content in
             let bubbleEntity = contentViewModel.makeBubble("Welcome")
@@ -24,7 +24,7 @@ struct ContentView: View {
             content.add(welcomeEntity)
            
         } update: { content in
-            guard let ambientSource = contentViewModel.contentEntity.findEntity(named: "BGM" ) else { return }
+            
         }
         .gesture(
             SpatialTapGesture()
@@ -50,7 +50,7 @@ struct ContentView: View {
                                 deadline: .now() + 1.5
                             ) {
                                 particleEntity.removeFromParent()
-                                openWindow(id: SceneID.WindowGroup.timer.id)
+                                openWindow(id: SceneID.WindowGroup.alert.id)
                             }
                         }
                         event.entity.removeFromParent()
