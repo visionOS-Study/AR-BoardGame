@@ -20,6 +20,7 @@ class ContentViewModel {
     private var currentIndex = 1
     private var countOfBubbles = 5
     private var addedChildList: [Entity] = []
+    private var bgmController: AudioPlaybackController?
     
     func getCurrentIndex() -> Int {
         currentIndex
@@ -36,11 +37,19 @@ class ContentViewModel {
     func setUpContentEntity() -> Entity {
         resetContentEnityChild()
         
+        contentEntity.addChild(addAmbientAudio())
+        
         var coordinates = makeCoordinates(row: 3)
         
         for i in 1...coordinates.count {
             let bubbleEntity = makeBubble("index-\(i)")
             let textModelEntity = makeTextEntity(text: String(i))
+            // 텍스트 엔터티 회전
+            let directionToLookAt = simd_normalize(SIMD3<Float>(0, 0, 0) - bubbleEntity.position) // 원점(유저) 방향
+            let upVector = SIMD3<Float>(0, 1, 0) // 위쪽(Y축)
+            let rotationMatrix = simd_float4x4(lookAt: directionToLookAt, up: upVector)
+            textModelEntity.transform.rotation = simd_quatf(rotationMatrix)
+            
             bubbleEntity.addChild(textModelEntity)
             
             coordinates = coordinates.shuffled()
@@ -84,10 +93,11 @@ class ContentViewModel {
         
         return particleEntity
     }
+
     
     func makeBubble(_ name: String) -> ModelEntity {
         var clearMaterial = PhysicallyBasedMaterial()
-        clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
+        clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 2.0)
         clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
         
         let entity = ModelEntity(
@@ -131,6 +141,7 @@ class ContentViewModel {
         
         let boundsExtents = textBoundingBox.extents * textModelEntity.scale
         textModelEntity.position = textModelEntity.position - SIMD3<Float>(x: boundsExtents.x/2, y: boundsExtents.y/2 + 0.03, z: 0.0)
+
         return textModelEntity
     }
     
@@ -190,6 +201,18 @@ class ContentViewModel {
             }
             contentEntity.addChild(particleEntity)
             
+            let bubblePopAudioEntity = createSpatialAudio()
+            particleEntity.addChild(bubblePopAudioEntity)
+            
+            do {
+                let resource = try AudioFileResource.load(named: "bubblePop.mp3")
+                bubblePopAudioEntity.playAudio(resource)
+
+            } catch {
+                print("Error loading audio file: \(error.localizedDescription)")
+            }
+            
+            
             if currentIndex == countOfBubbles {
                 isAllBubbleTapped = true
             } else {
@@ -199,19 +222,60 @@ class ContentViewModel {
         } else {
             
             if let modelEntity = entity as? ModelEntity {
-                let originalMaterials = modelEntity.model?.materials
+                var clearMaterial = PhysicallyBasedMaterial()
+                clearMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 2.0)
+                clearMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
                 
                 var clearRedMaterial = PhysicallyBasedMaterial()
                 clearRedMaterial.clearcoat = PhysicallyBasedMaterial.Clearcoat(floatLiteral: 5.0)
-                clearRedMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.1))
-                clearRedMaterial.baseColor = .init(tint: .red.withAlphaComponent(0.5))
+                clearRedMaterial.blending = .transparent(opacity: PhysicallyBasedMaterial.Opacity(scale: 0.4))
+                clearRedMaterial.baseColor = .init(tint: .red.withAlphaComponent(1.0))
                 modelEntity.model?.materials = [clearRedMaterial]
                 
                 // 3초 뒤 원래대로
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    modelEntity.model?.materials = originalMaterials ?? []
+                    modelEntity.model?.materials = [clearMaterial]
                 }
             }
         }
+    }
+    
+    func createSpatialAudio() -> Entity{
+        let audioSource = Entity()
+        audioSource.name = "buublePop"
+        audioSource.spatialAudio = SpatialAudioComponent(gain: 0)
+        audioSource.spatialAudio?.directivity = .beam(focus: 1)
+        return audioSource
+    }
+    
+    func addAmbientAudio() -> Entity{
+        let audioSource = Entity()
+        audioSource.name = "BGM"
+        audioSource.ambientAudio = AmbientAudioComponent(gain: -20)
+        
+        do {
+            let resource = try AudioFileResource.load(named: "BGM.mp3")
+            bgmController = audioSource.playAudio(resource)
+            bgmController?.seek(to: .seconds(3))
+
+        } catch {
+            print("Error loading audio file: \(error.localizedDescription)")
+        }
+        return audioSource
+    }
+}
+extension simd_float4x4 {
+    /// Creates a lookAt matrix for the specified direction and up vector
+    init(lookAt direction: SIMD3<Float>, up: SIMD3<Float>) {
+        let zAxis = simd_normalize(-direction)  // Forward vector (looking towards)
+        let xAxis = simd_normalize(simd_cross(up, zAxis))  // Right vector
+        let yAxis = simd_cross(zAxis, xAxis)  // True up vector
+        
+        self = simd_float4x4(
+            SIMD4<Float>(xAxis.x, yAxis.x, zAxis.x, 0),
+            SIMD4<Float>(xAxis.y, yAxis.y, zAxis.y, 0),
+            SIMD4<Float>(xAxis.z, yAxis.z, zAxis.z, 0),
+            SIMD4<Float>(0, 0, 0, 1)
+        )
     }
 }
