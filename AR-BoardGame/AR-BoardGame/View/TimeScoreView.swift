@@ -15,7 +15,7 @@ struct TimeScoreView: View {
   
     var body: some View {
       VStack {
-        Text("Time Score Board")
+        Text("🫧 Score 🫧")
           .font(.largeTitle)
           .padding()
         
@@ -25,12 +25,12 @@ struct TimeScoreView: View {
             Text("\(String(format: "%.2f", currentRecord)) seconds")
           }
           .padding()
-          .font(.headline.bold())
+          .font(.title2.bold())
         }
         .padding()
         .background(
           RoundedRectangle(cornerRadius: 16)
-            .fill(Color.red.opacity(0.5))
+            .fill(Color.red.opacity(0.3))
             .shadow(radius: 5)
         )
         
@@ -39,10 +39,9 @@ struct TimeScoreView: View {
                   let record = records[index]
                   Text("\(ordinalSuffix(of: index + 1)): \(String(format: "%.2f", record)) seconds")
                       .frame(maxWidth: .infinity)
-                      .background(record == currentRecord ? Color.yellow.opacity(0.5) : Color.clear)
                       .padding(.vertical, 4)
                       .font(record == currentRecord ? .headline : .body)
-                      .foregroundColor(record == currentRecord ? Color.red : Color.white)
+                      .foregroundColor(record == currentRecord ? Color.red.opacity(0.6) : Color.white)
               }
           }
           .listStyle(.inset)
@@ -80,4 +79,8 @@ struct TimeScoreView: View {
         
         return "\(number)\(suffix)"
     }
+}
+
+#Preview (windowStyle: .automatic){
+  TimeScoreView()
 }
