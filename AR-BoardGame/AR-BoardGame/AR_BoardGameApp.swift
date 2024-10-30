@@ -31,5 +31,12 @@ struct AR_BoardGameApp: App {
                 .environment(timerViewModel)
         }
         .defaultSize(width: timerWindowSize.width, height: timerWindowSize.height)
+        
+        WindowGroup(id: SceneID.WindowGroup.alert.id) {
+            AlertView()
+        }
+        .windowResizability(.contentSize)
+        .persistentSystemOverlays(.hidden)
+        
     }
 }
