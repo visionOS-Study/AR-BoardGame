@@ -12,12 +12,14 @@ struct AR_BoardGameApp: App {
     
     @State private var contentViewModel = ContentViewModel()
     @State private var timerViewModel = TimerViewModel()
-    var timerWindowSize: CGSize = CGSize(width: 900, height: 600)
+    var timerWindowSize: CGSize = CGSize(width: 800, height: 600)
     
     var body: some Scene {
         WindowGroup(id: SceneID.WindowGroup.content.id) {
             ContentView(contentViewModel: contentViewModel)
-        }.windowStyle(.volumetric)
+        }
+        .windowStyle(.volumetric)
+        .windowResizability(.contentSize)
 
         ImmersiveSpace(id: SceneID.ImmersiveSpace.game.id) {
             ImmersiveView()
