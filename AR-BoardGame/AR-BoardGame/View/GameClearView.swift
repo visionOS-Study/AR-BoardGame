@@ -33,7 +33,7 @@ struct GameClearView: View {
                 for (index, char) in text.enumerated() {
                     let textEntity = createTextEntity(String(char))
                     textEntity.scale = [0.1, 0.1, 0.1]
-                    textEntity.position = [Float(index) * 0.07 - 0.3, 0, -0.1]
+                    textEntity.position = [Float(index) * 0.05 - 0.25, 0, -0.1]
                     content.add(textEntity)
                     
                     rotateTextEntity(to: textEntity, index: index)
@@ -64,7 +64,7 @@ struct GameClearView: View {
             lineBreakMode: .byWordWrapping
         )
         
-        let material = SimpleMaterial(color: .black, isMetallic: false)
+        let material = SimpleMaterial(color: .yellow, isMetallic: false)
         let textEntity = ModelEntity(mesh: mesh, materials: [material])
         return textEntity
     }

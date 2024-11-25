@@ -118,7 +118,7 @@ class ContentViewModel {
     }
     
     func makeTextEntity(text: String, scale: Float = 1.0) -> ModelEntity {
-        let materialVar = SimpleMaterial(color: .black, roughness: 0, isMetallic: false)
+        let materialVar = SimpleMaterial(color: .white, roughness: 0, isMetallic: false)
         
         let depthVar: Float = 0.1
         let fontVar = UIFont.systemFont(ofSize: 0.3)

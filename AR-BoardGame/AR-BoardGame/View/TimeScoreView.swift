@@ -40,7 +40,7 @@ struct TimeScoreView: View {
                   Text("\(ordinalSuffix(of: index + 1)): \(String(format: "%.2f", record)) seconds")
                       .frame(maxWidth: .infinity)
                       .padding(.vertical, 4)
-                      .font(record == currentRecord ? .headline : .body)
+                      .font(record == currentRecord ? .title : .title3)
                       .foregroundColor(record == currentRecord ? Color.red.opacity(0.6) : Color.white)
               }
           }
